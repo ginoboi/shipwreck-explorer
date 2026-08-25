@@ -241,7 +241,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 
 /* ===== VISUAL BOND CIRCLES ===== */
 .bond-circle.visual{flex-direction:column;overflow:hidden;padding:4px}
-.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none;mix-blend-mode:multiply}
+.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(255,255,255,0.92);border-radius:50%;padding:4px}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none}
 .bond-circle .obj-label{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-size:clamp(10px,2.5vw,13px);color:#ffd700;font-weight:bold;background:rgba(0,52,89,0.85);padding:1px 8px;border-radius:8px;white-space:nowrap}
 .bond-circle.whole.visual{flex-direction:column;padding:6px}
 .bond-circle.whole.visual .obj-label{bottom:-2px}
@@ -279,7 +279,7 @@ img.emoji{height:1em;width:1em;margin:0 .05em;vertical-align:-0.1em;object-fit:c
 <!-- Bubbles container -->
 <div id="fullscreen-overlay" onclick="closeFullscreen(event)"><button class="fs-close" onclick="closeFullscreen(event)">⬅️ Back</button><img id="fs-img" src="" alt=""><div class="fs-caption" id="fs-caption"></div></div>
 <audio id="filipino-audio" preload="auto" style="display:none"></audio>
-<audio id="filipino-audio" preload="auto" style="display:none"></audio>
+<audio id="english-audio" preload="auto" style="display:none"></audio>
 <div id="bubbles-layer"></div>
 
 <!-- HUD (shown during puzzles) -->
@@ -490,23 +490,17 @@ bubble(){this.playTone(100+Math.random()*200,0.08,'sine',0.05)},
 startup(){[262,330,392,523].forEach((f,i)=>setTimeout(()=>this.playTone(f,0.12,'triangle',0.1),i*80))},
 speakWord(word){
 if(!this.ctx)return;
-try{
-if(!window.speechSynthesis)return;
-window.speechSynthesis.cancel();
-const u=new SpeechSynthesisUtterance(word);
-u.rate=0.7;u.pitch=1.2;u.volume=0.8;
-u.lang='en-US';
-var voices=window.speechSynthesis.getVoices()||[];
-var femaleVoice=voices.find(v=>/female|woman|samantha|karen|victoria|moira|tessa|fiona|serena|zira|susan|google us english|google uk english female/i.test(v.name));
-if(!femaleVoice){
-femaleVoice=voices.find(v=>v.lang&&v.lang.startsWith('en')&&/samantha|karen|victoria|moira|tessa|fiona|serena|zira|susan/i.test(v.name));
+if(ENGLISH_AUDIO&&ENGLISH_AUDIO[word]){
+var audio=document.getElementById('english-audio');
+if(audio){
+audio.src=ENGLISH_AUDIO[word];
+audio.play().then(function(){}).catch(function(){
+webSpeechEnglish(word);
+});
+return;
 }
-if(!femaleVoice){
-femaleVoice=voices.find(v=>v.lang&&v.lang.startsWith('en')&&v.name.toLowerCase().includes('female'));
 }
-if(femaleVoice){u.voice=femaleVoice}
-speechSynthesis.speak(u);
-}catch(e){}
+webSpeechEnglish(word);
 },
 // ===== CHIPTUNE MUSIC ENGINE =====
 musicPlaying:false,
@@ -892,6 +886,111 @@ const SPELLING_WORDS=[
 {word:'TRUCK',emoji:'🚚'},{word:'CROWN',emoji:'👑'},{word:'SWORD',emoji:'⚔️'},
 {word:'CASTLE',emoji:'🏰'},{word:'ROCKET',emoji:'🚀'},{word:'GARDEN',emoji:'🌷'}
 ];
+
+const ENGLISH_AUDIO = {
+  'ANT': 'audio/ant.mp3',
+  'APPLE': 'audio/apple.mp3',
+  'ARM': 'audio/arm.mp3',
+  'BAG': 'audio/bag.mp3',
+  'BALL': 'audio/ball.mp3',
+  'BAT': 'audio/bat.mp3',
+  'BEAR': 'audio/bear.mp3',
+  'BED': 'audio/bed.mp3',
+  'BEE': 'audio/bee.mp3',
+  'BIRD': 'audio/bird.mp3',
+  'BLUE': 'audio/blue.mp3',
+  'BOAT': 'audio/boat.mp3',
+  'BOOK': 'audio/book.mp3',
+  'BOW': 'audio/bow.mp3',
+  'BREAD': 'audio/bread.mp3',
+  'BUS': 'audio/bus.mp3',
+  'CAKE': 'audio/cake.mp3',
+  'CASTLE': 'audio/castle.mp3',
+  'CAT': 'audio/cat.mp3',
+  'CHAIR': 'audio/chair.mp3',
+  'CLOUD': 'audio/cloud.mp3',
+  'COW': 'audio/cow.mp3',
+  'CRAB': 'audio/crab.mp3',
+  'CROWN': 'audio/crown.mp3',
+  'CUP': 'audio/cup.mp3',
+  'DEER': 'audio/deer.mp3',
+  'DOG': 'audio/dog.mp3',
+  'DUCK': 'audio/duck.mp3',
+  'EAR': 'audio/ear.mp3',
+  'EGG': 'audio/egg.mp3',
+  'EYE': 'audio/eye.mp3',
+  'FIRE': 'audio/fire.mp3',
+  'FISH': 'audio/fish.mp3',
+  'FLY': 'audio/fly.mp3',
+  'FOOT': 'audio/foot.mp3',
+  'FOX': 'audio/fox.mp3',
+  'FROG': 'audio/frog.mp3',
+  'GARDEN': 'audio/garden.mp3',
+  'GIFT': 'audio/gift.mp3',
+  'GOLD': 'audio/gold.mp3',
+  'GRAPE': 'audio/grape.mp3',
+  'HAIR': 'audio/hair.mp3',
+  'HAND': 'audio/hand.mp3',
+  'HAPPY': 'audio/happy.mp3',
+  'HAT': 'audio/hat.mp3',
+  'HEART': 'audio/heart.mp3',
+  'HEN': 'audio/hen.mp3',
+  'HORSE': 'audio/horse.mp3',
+  'HOUSE': 'audio/house.mp3',
+  'ICE': 'audio/ice.mp3',
+  'JAM': 'audio/jam.mp3',
+  'KEY': 'audio/key.mp3',
+  'KING': 'audio/king.mp3',
+  'LEAF': 'audio/leaf.mp3',
+  'LIGHT': 'audio/light.mp3',
+  'LION': 'audio/lion.mp3',
+  'MANGO': 'audio/mango.mp3',
+  'MAP': 'audio/map.mp3',
+  'MILK': 'audio/milk.mp3',
+  'MOON': 'audio/moon.mp3',
+  'MUD': 'audio/mud.mp3',
+  'MUSIC': 'audio/music.mp3',
+  'NEST': 'audio/nest.mp3',
+  'NIGHT': 'audio/night.mp3',
+  'OCEAN': 'audio/ocean.mp3',
+  'OIL': 'audio/oil.mp3',
+  'OWL': 'audio/owl.mp3',
+  'PANDA': 'audio/panda.mp3',
+  'PEN': 'audio/pen.mp3',
+  'PIG': 'audio/pig.mp3',
+  'PINK': 'audio/pink.mp3',
+  'PLANE': 'audio/plane.mp3',
+  'RAIN': 'audio/rain.mp3',
+  'RED': 'audio/red.mp3',
+  'RING': 'audio/ring.mp3',
+  'ROBOT': 'audio/robot.mp3',
+  'ROCKET': 'audio/rocket.mp3',
+  'SEA': 'audio/sea.mp3',
+  'SHARK': 'audio/shark.mp3',
+  'SHELL': 'audio/shell.mp3',
+  'SHIP': 'audio/ship.mp3',
+  'SIX': 'audio/six.mp3',
+  'SKY': 'audio/sky.mp3',
+  'SMILE': 'audio/smile.mp3',
+  'SNOW': 'audio/snow.mp3',
+  'STAR': 'audio/star.mp3',
+  'SUN': 'audio/sun.mp3',
+  'SWORD': 'audio/sword.mp3',
+  'TABLE': 'audio/table.mp3',
+  'TEN': 'audio/ten.mp3',
+  'TIGER': 'audio/tiger.mp3',
+  'TOE': 'audio/toe.mp3',
+  'TRAIN': 'audio/train.mp3',
+  'TREE': 'audio/tree.mp3',
+  'TRUCK': 'audio/truck.mp3',
+  'TWO': 'audio/two.mp3',
+  'WATER': 'audio/water.mp3',
+  'WHALE': 'audio/whale.mp3',
+  'WIND': 'audio/wind.mp3',
+  'WOLF': 'audio/wolf.mp3',
+};
+
+function webSpeechEnglish(word){try{if(!window.speechSynthesis)return;window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(word);u.rate=0.7;u.pitch=1.2;u.volume=0.8;u.lang='en-US';var vs=window.speechSynthesis.getVoices()||[];var fv=vs.find(function(v){return/female|samantha|karen|victoria|moira|tessa|fiona|serena|zira|susan/i.test(v.name)});if(fv){u.voice=fv}speechSynthesis.speak(u)}catch(e){}}
 
 // ===== ADAPTIVE DIFFICULTY =====
 const Difficulty={
@@ -1457,7 +1556,7 @@ container.innerHTML=`
 <div class="puzzle-hint" style="font-size:clamp(11px,2.5vw,14px)">Listen and remember! 👂</div>
 </div>
 <div style="text-align:center;padding:4px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain;margin:4px 0;mix-blend-mode:multiply">':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
+${item.img?'<div style="background:rgba(255,255,255,0.9);border-radius:12px;padding:6px;display:inline-block;margin:4px 0"><img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
 <div style="font-size:clamp(22px,6vw,34px);color:#ffd700;font-weight:bold;margin:4px 0">${item.word}</div>
 <div style="font-size:clamp(12px,3vw,16px);color:#4ecdc4;margin-bottom:8px">Letra: ${item.letter}</div>
 <button class="answer-btn" style="font-size:clamp(16px,3.5vw,20px);padding:10px 22px;background:linear-gradient(135deg,#4ecdc4,#44a3aa)" onclick="speakFilipino('${item.word}')">
@@ -1481,7 +1580,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What is this in Filipino? 🇵🇭</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain;mix-blend-mode:multiply">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<div style="background:rgba(255,255,255,0.9);border-radius:12px;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer">🔊</button>
 </div>
 <div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
@@ -1496,7 +1595,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What letter is this? 🔤</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain;mix-blend-mode:multiply">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<div style="background:rgba(255,255,255,0.9);border-radius:12px;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <div style="font-size:clamp(16px,4vw,20px);color:#4ecdc4;margin-top:4px">${item.word}</div>
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer;margin-top:4px">🔊</button>
 </div>
