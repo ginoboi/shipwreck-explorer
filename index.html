@@ -227,7 +227,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .bg-filipino{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('https://media.base44.com/files/public/6a55a3487fea38a2128e0632/46fd1bd4a_bg_filipino.jpg')!important}
 
 /* ===== CAPTAIN AVATAR + GREETING ===== */
-.captain-avatar{width:clamp(90px,22vw,140px);height:clamp(90px,22vw,140px);border-radius:50%;margin:0 auto 12px;display:block;object-fit:cover;animation:avatarFloat 3s ease-in-out infinite;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
+.captain-avatar{width:clamp(90px,22vw,140px);height:clamp(90px,22vw,140px);border-radius:50%;margin:0 auto 12px;display:block;object-fit:cover;object-position:center 25%;animation:avatarFloat 3s ease-in-out infinite;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
 @keyframes avatarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .captain-greeting{font-size:clamp(18px,4.5vw,26px);color:#ffd700;font-weight:bold;text-align:center;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,0.4)}
 
@@ -241,7 +241,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 
 /* ===== VISUAL BOND CIRCLES ===== */
 .bond-circle.visual{flex-direction:column;overflow:hidden;padding:4px}
-.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none}
+.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none;mix-blend-mode:multiply}
 .bond-circle .obj-label{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-size:clamp(10px,2.5vw,13px);color:#ffd700;font-weight:bold;background:rgba(0,52,89,0.85);padding:1px 8px;border-radius:8px;white-space:nowrap}
 .bond-circle.whole.visual{flex-direction:column;padding:6px}
 .bond-circle.whole.visual .obj-label{bottom:-2px}
@@ -294,7 +294,7 @@ img.emoji{height:1em;width:1em;margin:0 .05em;vertical-align:-0.1em;object-fit:c
 
 <!-- ===== TITLE SCREEN ===== -->
 <div class="screen surface active" id="title-screen">
-<img class="captain-avatar" id="avatar-img" src="" alt="" onerror="this.style.display='none'">
+<img class="captain-avatar" id="avatar-img" src="https://media.base44.com/files/public/6a55a3487fea38a2128e0632/7c20a3fe3_alec_avatar.png" alt="Captain Alec">
 <div class="captain-greeting" id="captain-greeting"></div>
 <div class="sub-icon" id="sub-icon"></div>
 <div class="game-title" id="game-title"></div>
@@ -471,7 +471,7 @@ const BOND_OBJECTS=[
 // ===== AUDIO ENGINE (Web Audio API, no external files) =====
 const Audio = {
 ctx:null,
-init(){if(!this.ctx){try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}}if(this.ctx.state==='suspended'){this.ctx.resume().catch(()=>{})}},
+init(){if(!this.ctx){try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}}if(this.ctx.state==='suspended'){this.ctx.resume().catch(()=>{})}if(window.speechSynthesis){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.getVoices()}}},
 playTone(freq,duration,type='sine',vol=0.15){
 if(!this.ctx)return;
 try{
@@ -491,8 +491,20 @@ startup(){[262,330,392,523].forEach((f,i)=>setTimeout(()=>this.playTone(f,0.12,'
 speakWord(word){
 if(!this.ctx)return;
 try{
+if(!window.speechSynthesis)return;
+window.speechSynthesis.cancel();
 const u=new SpeechSynthesisUtterance(word);
 u.rate=0.7;u.pitch=1.2;u.volume=0.8;
+u.lang='en-US';
+var voices=window.speechSynthesis.getVoices()||[];
+var femaleVoice=voices.find(v=>/female|woman|samantha|karen|victoria|moira|tessa|fiona|serena|zira|susan|google us english|google uk english female/i.test(v.name));
+if(!femaleVoice){
+femaleVoice=voices.find(v=>v.lang&&v.lang.startsWith('en')&&/samantha|karen|victoria|moira|tessa|fiona|serena|zira|susan/i.test(v.name));
+}
+if(!femaleVoice){
+femaleVoice=voices.find(v=>v.lang&&v.lang.startsWith('en')&&v.name.toLowerCase().includes('female'));
+}
+if(femaleVoice){u.voice=femaleVoice}
 speechSynthesis.speak(u);
 }catch(e){}
 },
@@ -1414,6 +1426,14 @@ window.speechSynthesis.speak(u);
 }catch(e){Audio.bubble();}
 }
 
+function filipinoShowQuiz(){
+filipinoPhase='quiz';
+var c=document.getElementById('puzzle-container');
+var level=Difficulty.get(currentSubject).level;
+renderFilipino(c,level);
+twemojiParse();
+}
+
 function renderFilipino(container,level){
 let item;
 if(filipinoPhase==='quiz'&&filipinoItem){
@@ -1437,14 +1457,14 @@ container.innerHTML=`
 <div class="puzzle-hint" style="font-size:clamp(11px,2.5vw,14px)">Listen and remember! 👂</div>
 </div>
 <div style="text-align:center;padding:4px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain;margin:4px 0">':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
+${item.img?'<img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain;margin:4px 0;mix-blend-mode:multiply">':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
 <div style="font-size:clamp(22px,6vw,34px);color:#ffd700;font-weight:bold;margin:4px 0">${item.word}</div>
 <div style="font-size:clamp(12px,3vw,16px);color:#4ecdc4;margin-bottom:8px">Letra: ${item.letter}</div>
 <button class="answer-btn" style="font-size:clamp(16px,3.5vw,20px);padding:10px 22px;background:linear-gradient(135deg,#4ecdc4,#44a3aa)" onclick="speakFilipino('${item.word}')">
 🔊 Pakinggan
 </button>
 </div>
-<button class="btn" style="margin-top:4px;padding:10px 24px" onclick="filipinoPhase='quiz';nextPuzzle()">✅ Got it! Quiz Time</button>
+<button class="btn" style="margin-top:4px;padding:10px 24px" onclick="filipinoShowQuiz()">✅ Got it! Quiz Time</button>
 `;
 twemojiParse();
 }else{
@@ -1461,7 +1481,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What is this in Filipino? 🇵🇭</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain;mix-blend-mode:multiply">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer">🔊</button>
 </div>
 <div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
@@ -1476,7 +1496,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What letter is this? 🔤</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain;mix-blend-mode:multiply">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <div style="font-size:clamp(16px,4vw,20px);color:#4ecdc4;margin-top:4px">${item.word}</div>
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer;margin-top:4px">🔊</button>
 </div>
