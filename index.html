@@ -241,7 +241,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 
 /* ===== VISUAL BOND CIRCLES ===== */
 .bond-circle.visual{flex-direction:column;overflow:hidden;padding:4px}
-.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%;background:#fff;border-radius:50%;padding:4px}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none}
+.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%;background:#fff;border-radius:50%;padding:4px}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none;border-radius:50%;background:#fff}
 .bond-circle .obj-label{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-size:clamp(10px,2.5vw,13px);color:#ffd700;font-weight:bold;background:rgba(0,52,89,0.85);padding:1px 8px;border-radius:8px;white-space:nowrap}
 .bond-circle.whole.visual{flex-direction:column;padding:6px}
 .bond-circle.whole.visual .obj-label{bottom:-2px}
@@ -1296,7 +1296,7 @@ else if(n<=20)objSize='clamp(14px,3.5vw,20px)';
 else if(n<=50)objSize='clamp(8px,2vw,12px)';
 else objSize='clamp(5px,1.2vw,8px)';
 let s='<div class="obj-grid" style="font-size:'+objSize+'">';
-for(let i=0;i<n;i++)s+='<img class="obj-img" src="'+imgUrl+'" style="width:1em;height:1em;object-fit:contain" alt="obj">';
+for(let i=0;i<n;i++)s+='<img class="obj-img" src="'+imgUrl+'" style="width:1em;height:1em;object-fit:contain;border-radius:50%" alt="obj">';
 s+='</div>';
 return s;
 }
@@ -1793,7 +1793,8 @@ const photoHtml=photos.map((p,i)=>`
 </div>
 `).join('');
 
-const triviaHtml=ship.trivia.map(t=>`<div style="display:flex;align-items:start;gap:8px;margin-bottom:6px"><span style="color:#ffd700">💡</span><span style="color:#fff;font-size:14px">${t}</span></div>`).join('');
+const triviaHtml=ship.trivia.map((t,i)=>`<div style="display:flex;align-items:start;gap:8px;margin-bottom:6px"><span style="color:#ffd700">💡</span><span style="color:#fff;font-size:14px;flex:1">${t}</span><button onclick="speakTrivia(${i})" style="background:rgba(78,205,196,0.3);border:1px solid #4ecdc4;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0;color:#4ecdc4">🔊</button></div>`).join('');
+const _galleryTrivia=ship.trivia;
 
 grid.innerHTML=`
 <div style="width:92%;max-width:420px;margin:0 auto;overflow-y:auto;max-height:85vh;padding-bottom:80px">
@@ -1807,7 +1808,7 @@ ${photoHtml}
 <div style="font-size:14px;color:#e0e0e0;line-height:1.8;text-align:left">${ship.history||''}</div>
 </div>
 <div style="background:rgba(0,52,89,0.8);border-radius:16px;padding:16px;margin-bottom:14px">
-<div style="font-size:16px;color:#ffd60a;font-weight:bold;margin-bottom:10px">💡 Fun Facts</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:16px;color:#ffd60a;font-weight:bold">💡 Fun Facts</div><button onclick="speakAllTrivia()" style="background:rgba(78,205,196,0.3);border:1px solid #4ecdc4;border-radius:20px;padding:4px 12px;cursor:pointer;color:#4ecdc4;font-size:12px">🔊 Read All</button></div>
 ${triviaHtml}
 </div>
 </div>
@@ -1815,6 +1816,33 @@ ${triviaHtml}
 `;
 }
 
+
+
+function speakTrivia(idx){
+try{
+if(!window.speechSynthesis)return;
+window.speechSynthesis.cancel();
+if(!_galleryTrivia||!_galleryTrivia[idx])return;
+const u=new SpeechSynthesisUtterance(_galleryTrivia[idx]);
+u.lang='en-US';
+u.rate=0.85;
+u.pitch=1.1;
+window.speechSynthesis.speak(u);
+}catch(e){}
+}
+function speakAllTrivia(){
+try{
+if(!window.speechSynthesis)return;
+window.speechSynthesis.cancel();
+if(!_galleryTrivia)return;
+const text=_galleryTrivia.join('. ');
+const u=new SpeechSynthesisUtterance(text);
+u.lang='en-US';
+u.rate=0.85;
+u.pitch=1.1;
+window.speechSynthesis.speak(u);
+}catch(e){}
+}
 
 // ===== FULLSCREEN IMAGE VIEWER =====
 let _fsPhotos=[];let _fsIndex=0;
