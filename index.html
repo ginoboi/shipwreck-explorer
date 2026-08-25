@@ -98,9 +98,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .bond-diagram{position:relative;width:100%;max-width:380px;height:clamp(240px,56vw,320px);margin:10px auto 0}
 .bond-svg{position:absolute;top:0;left:0;width:100%;height:100%}
 .bond-svg line{stroke:#ffd700;stroke-width:3;stroke-linecap:round}
-.bond-circle{position:absolute;transform:translate(-50%,-50%);width:clamp(70px,18vw,110px);height:clamp(70px,18vw,110px);border:4px solid #4ecdc4;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1a87a8;font-size:clamp(26px,6.5vw,42px);color:#fff;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,0.4);overflow:hidden}
+.bond-circle{position:absolute;transform:translate(-50%,-50%);width:clamp(70px,18vw,110px);height:clamp(70px,18vw,110px);border:4px solid #4ecdc4;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#0c5573;font-size:clamp(26px,6.5vw,42px);color:#fff;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,0.4);overflow:hidden}
 .bond-circle.whole{width:clamp(100px,28vw,170px);height:clamp(100px,28vw,170px);border-color:#ffd700}
-.bond-circle.whole{border-color:#ffd700;background:#1a87a8;font-size:clamp(22px,5.5vw,34px)}
+.bond-circle.whole{border-color:#ffd700;background:#0c5573;font-size:clamp(22px,5.5vw,34px)}
 .bond-circle.question{border-color:#ffd700;background:rgba(255,215,0,0.15);animation:pulse 1.5s ease infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,0.4)}50%{box-shadow:0 0 0 12px rgba(255,215,0,0)}}
 
@@ -241,7 +241,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 
 /* ===== VISUAL BOND CIRCLES ===== */
 .bond-circle.visual{flex-direction:column;overflow:hidden;padding:4px}
-.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none;mix-blend-mode:multiply}
+.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%;background:#fff;border-radius:50%;padding:4px}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none}
 .bond-circle .obj-label{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-size:clamp(10px,2.5vw,13px);color:#ffd700;font-weight:bold;background:rgba(0,52,89,0.85);padding:1px 8px;border-radius:8px;white-space:nowrap}
 .bond-circle.whole.visual{flex-direction:column;padding:6px}
 .bond-circle.whole.visual .obj-label{bottom:-2px}
@@ -1556,7 +1556,7 @@ container.innerHTML=`
 <div class="puzzle-hint" style="font-size:clamp(11px,2.5vw,14px)">Listen and remember! 👂</div>
 </div>
 <div style="text-align:center;padding:4px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain;margin:4px 0;mix-blend-mode:multiply">':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
+${item.img?'<div style="background:#fff;border-radius:50%;padding:6px;display:inline-block;margin:4px 0"><img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
 <div style="font-size:clamp(22px,6vw,34px);color:#ffd700;font-weight:bold;margin:4px 0">${item.word}</div>
 <div style="font-size:clamp(12px,3vw,16px);color:#4ecdc4;margin-bottom:8px">Letra: ${item.letter}</div>
 <button class="answer-btn" style="font-size:clamp(16px,3.5vw,20px);padding:10px 22px;background:linear-gradient(135deg,#4ecdc4,#44a3aa)" onclick="speakFilipino('${item.word}')">
@@ -1580,7 +1580,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What is this in Filipino? 🇵🇭</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain;mix-blend-mode:multiply">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<div style="background:#fff;border-radius:50%;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer">🔊</button>
 </div>
 <div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
@@ -1595,7 +1595,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What letter is this? 🔤</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<img src="'+item.img+'" style="width:clamp(56px,15vw,90px);height:auto;object-fit:contain;mix-blend-mode:multiply">':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<div style="background:#fff;border-radius:50%;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <div style="font-size:clamp(16px,4vw,20px);color:#4ecdc4;margin-top:4px">${item.word}</div>
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer;margin-top:4px">🔊</button>
 </div>
