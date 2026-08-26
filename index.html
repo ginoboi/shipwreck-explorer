@@ -226,6 +226,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .bg-math{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_math.jpg')!important}
 .bg-english{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_english.jpg')!important}
 .bg-filipino{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_filipino.jpg')!important}
+.bg-civics{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_general.jpg')!important}
 
 /* ===== CAPTAIN AVATAR + GREETING ===== */
 .captain-avatar{width:clamp(90px,22vw,140px);height:clamp(90px,22vw,140px);border-radius:50%;margin:0 auto 12px;display:block;object-fit:cover;object-position:center 25%;animation:avatarFloat 3s ease-in-out infinite;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
@@ -794,7 +795,16 @@ galleryPhotos:[
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/Titanic_in_color.png',caption:'A colorized photo of the Titanic'},
 {src:'images/titanic.jpg',caption:'RMS Titanic, the most famous shipwreck'}
 ],
-history:'The RMS Titanic was the largest ship in the world when it was built in 1912. It was 882 feet long and had a swimming pool, a gym, and a grand staircase! People said it was "unsinkable." On its very first trip from England to New York, on the night of April 14, 1912, the Titanic hit a giant iceberg in the dark. The ship had 2,224 people on board but only 20 lifeboats, enough for half the people. The ship sank in 2 hours and 40 minutes. 1,517 people died in the freezing water. The wreck was found in 1985 by Robert Ballard, 3,800 meters underwater. The ship is now split in two pieces on the ocean floor.'}
+history:'The RMS Titanic was the largest ship in the world when it was built in 1912. It was 882 feet long and had a swimming pool, a gym, and a grand staircase! People said it was "unsinkable." On its very first trip from England to New York, on the night of April 14, 1912, the Titanic hit a giant iceberg in the dark. The ship had 2,224 people on board but only 20 lifeboats, enough for half the people. The ship sank in 2 hours and 40 minutes. 1,517 people died in the freezing water. The wreck was found in 1985 by Robert Ballard, 3,800 meters underwater. The ship is now split in two pieces on the ocean floor.'},
+
+{id:6,name:'IJN Yamato',photo:'images/yamato_trials_1941.jpg',emoji:'🇯🇵',depth:'East China Sea, 1945',desc:"The world's largest battleship",trivia:['Was the largest battleship ever built','Had the biggest guns ever put on a ship - 18.1 inch!','Sank on April 7, 1945 during Operation Ten-Go','Only 269 of 3,332 crew members survived','Was found in 1982, 350 meters underwater'],rarity:'LEGENDARY',unlockCost:150,
+galleryPhotos:[
+{src:'images/yamato_trials_1941.jpg',caption:'Yamato running sea trials, October 1941'},
+{src:'images/yamato_moored_1943.jpg',caption:'Yamato moored in Truk Lagoon, 1943'},
+{src:'images/yamato_wreck_diorama.webp',caption:'Museum diorama of Yamato wreck on the seafloor'},
+{src:'images/yamato_wreck_illustration.png',caption:'Illustration: Yamato resting on the ocean floor'}
+],
+history:'The Yamato was the pride of the Imperial Japanese Navy and the largest battleship ever built. It was 263 meters long and had nine 18.1-inch guns, the biggest ever mounted on a warship. The Yamato was launched in 1940 and joined the Japanese fleet in 1941. For most of World War II, the Yamato stayed near Japan because it was so valuable. In April 1945, the Japanese sent the Yamato on a desperate mission to Okinawa called Operation Ten-Go. American aircraft attacked with bombs and torpedoes. The Yamato exploded and sank on April 7, 1945. Only 269 of the 3,332 sailors survived. The wreck was found in 1982, 350 meters underwater, broken in two pieces.'}
 ];
 
 // ===== CURRICULUM DATA// ===== CURRICULUM DATA =====
@@ -846,6 +856,30 @@ const FILIPINO_AUDIO = {
 };
 
 
+
+
+// ===== CIVICS: BASIC NEEDS (DepEd AP/Makabayan) =====
+const CIVICS_LESSONS=[
+{topic:'Go Foods',emoji:'🍚',prompt:'Go foods give you energy to run and play!',examples:'Rice, bread, pasta, cereal',
+question:'Which food gives you ENERGY to run and play?',options:['Rice','Apple','Milk','Fish'],answer:0},
+{topic:'Grow Foods',emoji:'🥩',prompt:'Grow foods help you grow strong muscles and bones!',examples:'Meat, fish, eggs, milk, beans',
+question:'Which food helps you GROW strong?',options:['Bread','Chicken','Banana','Water'],answer:1},
+{topic:'Glow Foods',emoji:'🥕',prompt:'Glow foods keep you healthy and glowing! They have vitamins!',examples:'Fruits and vegetables',
+question:'Which food keeps you HEALTHY?',options:['Rice','Fish','Carrot','Egg'],answer:2},
+{topic:'Rainy Clothes',emoji:'☔',prompt:'On a rainy day, we wear a raincoat to stay dry!',
+question:'What do you wear on a RAINY day?',options:['Raincoat','Swimsuit','Shorts','Cap'],answer:0},
+{topic:'Cold Clothes',emoji:'🧥',prompt:'When it is cold, we wear a jacket or sweater to stay warm!',
+question:'What do you wear when it is COLD?',options:['Raincoat','Jacket','Swimsuit','T-shirt'],answer:1},
+{topic:'Swim Clothes',emoji:'🏊',prompt:'When you go swimming, you wear a swimsuit!',
+question:'What do you wear when you go SWIMMING?',options:['Swimsuit','Jacket','Uniform','Raincoat'],answer:0},
+{topic:'Shelter',emoji:'🏠',prompt:'A house is our shelter. It protects us from rain, sun, and wind!',
+question:'What protects us from rain and sun?',options:['House','Umbrella','Tree','Car'],answer:0},
+{topic:'Water',emoji:'💧',prompt:'Water is important! We need to drink water every day to stay healthy!',
+question:'What do we need to DRINK every day?',options:['Water','Soda','Juice','Candy'],answer:0}
+];
+let civicsPhase='teach';
+let civicsItem=null;
+let civicsUsed=[];
 
 // English spelling words (3-4 letters, picture-based)
 const SPELLING_WORDS=[
@@ -1060,7 +1094,7 @@ this.unlockedCards.push(shipId);this.save();
 },
 shipComplete(shipId){
 const p=this.shipProgress[shipId]||{};
-return p.math&&p.english&&p.filipino;
+return p.math&&p.english&&p.filipino&&p.civics;
 },
 markSubject(shipId,subject){
 const p=this.shipProgress[shipId]||{};
@@ -1180,12 +1214,12 @@ card.style.borderColor='#ffd700';
 card.onclick=()=>{Audio.wrong()};
 }
 const subjects=Progress.shipProgress[ship.id]||{};
-const doneCount=(subjects.math?1:0)+(subjects.english?1:0)+(subjects.filipino?1:0);
+const doneCount=(subjects.math?1:0)+(subjects.english?1:0)+(subjects.filipino?1:0)+(subjects.civics?1:0);
 card.innerHTML=`
 ${unlocked||canUnlock?`<img class="ship-photo" src="${ship.photo}" alt="${ship.name}" onerror="this.style.display='none'">`:'<div class="ship-emoji">🔒</div>'}
 <div class="ship-name">${unlocked?ship.name:'???'}</div>
 <div class="ship-sub">${unlocked?ship.desc:'Need '+ship.unlockCost+' 🪙'}</div>
-${unlocked?`<div class="ship-progress">${doneCount}/3 ⭐</div>`:''}
+${unlocked?`<div class="ship-progress">${doneCount}/4 ⭐</div>`:''}
 ${unlocked?`<div class="difficulty-badge">${completed?'✅ Complete':'Ready to explore'}</div>`:''}
 `;
 grid.appendChild(card);
@@ -1205,7 +1239,8 @@ const sp=Progress.shipProgress[currentShip.id]||{};
 const subjects=[
 {id:'math',name:'Math',icon:'🔢',desc:'Number bonds & addition',done:sp.math},
 {id:'english',name:'English',icon:'🔤',desc:'Spelling & letters',done:sp.english},
-{id:'filipino',name:'Filipino',icon:'🇵🇭',desc:'Alpabetong Filipino',done:sp.filipino}
+{id:'filipino',name:'Filipino',icon:'🇵🇭',desc:'Alpabetong Filipino',done:sp.filipino},
+{id:'civics',name:'Civics',icon:'🏛️',desc:'Basic needs: food, clothes, shelter',done:sp.civics}
 ];
 grid.innerHTML='';
 subjects.forEach(s=>{
@@ -1218,7 +1253,7 @@ card.innerHTML=`
 <div class="subject-info">
 <div class="subject-name">${s.name}</div>
 <div class="subject-desc">${s.desc}</div>
-<div class="subject-stars">${s.done?'⭐⭐⭐ Complete!':'⭐⭐⭐'}</div>
+<div class="subject-stars">${s.done?'⭐⭐⭐⭐ Complete!':'⭐⭐⭐⭐'}</div>
 <div class="depth-meter">${[1,2,3,4,5].map(n=>`<div class="depth-dot ${n<=d.level?'active':''}"></div>`).join('')}<span class="depth-label">Depth</span></div>
 </div>
 `;
@@ -1232,10 +1267,11 @@ Audio.setPageTrack('puzzle-'+subject);
 currentSubject=subject;
 puzzleCount=0;
 const ps=document.getElementById('puzzle-screen');
-ps.classList.remove('bg-math','bg-english','bg-filipino');
+ps.classList.remove('bg-math','bg-english','bg-filipino','bg-civics');
 if(subject==='math')ps.classList.add('bg-math');
 else if(subject==='english')ps.classList.add('bg-english');
 else if(subject==='filipino')ps.classList.add('bg-filipino');
+else if(subject==='civics')ps.classList.add('bg-civics');
 document.getElementById('hud').classList.remove('hidden');
 document.getElementById('hud-music').textContent=Audio.musicEnabled?'🎵 ON':'🔇 OFF';
 updateHUD();
@@ -1267,6 +1303,7 @@ const level=Difficulty.get(currentSubject).level;
 if(currentSubject==='math')renderMath(c,level);
 else if(currentSubject==='english')renderEnglish(c,level);
 else if(currentSubject==='filipino')renderFilipino(c,level);
+else if(currentSubject==='civics')renderCivics(c,level);
 twemojiParse();
 }
 
@@ -1608,6 +1645,95 @@ ${options.map(o=>`<button class="answer-btn" onclick="handleFilipinoAnswer('${o.
 }
 }
 
+
+// ===== CIVICS PUZZLES (Basic Needs: Food, Clothes, Shelter, Water) =====
+function renderCivics(container,level){
+let item;
+if(civicsPhase==='quiz'&&civicsItem){
+item=civicsItem;
+}else{
+// Teach phase: pick a lesson not recently used
+let pool=CIVICS_LESSONS.filter(f=>!civicsUsed.includes(f.topic));
+if(pool.length<3){civicsUsed=[];pool=CIVICS_LESSONS}
+item=pool[Math.floor(Math.random()*pool.length)];
+civicsUsed.push(item.topic);
+civicsItem=item;
+}
+currentPuzzleData={answer:item.options[item.answer],type:'civics'};
+
+if(civicsPhase==='teach'){
+// TEACH PHASE
+container.innerHTML=`
+<div class="puzzle-question" style="padding:12px 24px">
+<div class="puzzle-prompt" style="font-size:clamp(16px,4vw,24px);margin-bottom:4px">${item.topic}</div>
+<div class="puzzle-hint" style="font-size:clamp(11px,2.5vw,14px)">Listen and remember! 👂</div>
+</div>
+<div style="text-align:center;padding:4px 0">
+<div style="background:linear-gradient(135deg,#003459,#006994);border-radius:50%;padding:12px;display:inline-block;margin:4px 0;width:clamp(64px,18vw,100px);height:clamp(64px,18vw,100px);display:flex;align-items:center;justify-content:center">
+<span style="font-size:clamp(36px,10vw,56px)">${item.emoji}</span>
+</div>
+<div style="font-size:clamp(18px,5vw,26px);color:#ffd700;font-weight:bold;margin:8px 0;line-height:1.4">${item.prompt}</div>
+${item.examples?`<div style="font-size:clamp(13px,3vw,16px);color:#4ecdc4;margin-bottom:8px">Examples: ${item.examples}</div>`:''}
+</div>
+<button class="btn" style="margin-top:4px;padding:10px 24px" onclick="civicsShowQuiz()">✅ Got it! Quiz Time</button>
+`;
+twemojiParse();
+}else{
+// QUIZ PHASE
+civicsPhase='teach'; // Reset for next round
+const correctIdx=item.answer;
+// Shuffle options but track which is correct
+const indexedOptions=item.options.map((opt,idx)=>({opt,idx}));
+const shuffled=indexedOptions.sort(()=>Math.random()-0.5);
+
+if(level<=2){
+// Show emoji + question, pick the answer
+container.innerHTML=`
+<div class="puzzle-question">
+<div class="puzzle-prompt">${item.question}</div>
+<div class="puzzle-hint">Tap the correct answer! 🧠</div>
+</div>
+<div style="text-align:center;margin:8px 0">
+<div style="background:linear-gradient(135deg,#003459,#006994);border-radius:50%;padding:12px;display:inline-block;width:clamp(64px,18vw,100px);height:clamp(64px,18vw,100px);display:flex;align-items:center;justify-content:center">
+<span style="font-size:clamp(36px,10vw,56px)">${item.emoji}</span>
+</div>
+</div>
+<div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
+${shuffled.map(o=>`<button class="answer-btn" style="font-size:clamp(16px,4vw,22px);padding:14px 8px" onclick="handleCivicsAnswer(${o.idx===correctIdx},this)">${o.opt}</button>`).join('')}
+</div>
+`;
+}else{
+// Harder: show prompt text, pick the answer (no emoji hint)
+container.innerHTML=`
+<div class="puzzle-question">
+<div class="puzzle-prompt">${item.question}</div>
+<div class="puzzle-hint">Tap the correct answer! 🧠</div>
+</div>
+<div style="text-align:center;margin:4px 0">
+<div style="font-size:clamp(14px,3.5vw,18px);color:#4ecdc4;max-width:300px;margin:0 auto">${item.prompt}</div>
+</div>
+<div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
+${shuffled.map(o=>`<button class="answer-btn" style="font-size:clamp(16px,4vw,22px);padding:14px 8px" onclick="handleCivicsAnswer(${o.idx===correctIdx},this)">${o.opt}</button>`).join('')}
+</div>
+`;
+}
+}
+}
+
+function civicsShowQuiz(){
+Audio.click();
+civicsPhase='quiz';
+const c=document.getElementById('puzzle-container');
+c.innerHTML='';
+const level=Difficulty.get(currentSubject).level;
+renderCivics(c,level);
+twemojiParse();
+}
+
+function handleCivicsAnswer(correct,btn){
+handleAnswer(correct,btn);
+}
+
 function handleFilipinoAnswer(correct,btn){
 handleAnswer(correct==='true',btn);
 }
@@ -1712,10 +1838,11 @@ document.getElementById('reward-container').innerHTML=`
 showScreen('reward-screen');
 twemojiParse();
 const rs=document.getElementById('reward-screen');
-rs.classList.remove('bg-math','bg-english','bg-filipino');
+rs.classList.remove('bg-math','bg-english','bg-filipino','bg-civics');
 if(currentSubject==='math')rs.classList.add('bg-math');
 else if(currentSubject==='english')rs.classList.add('bg-english');
 else if(currentSubject==='filipino')rs.classList.add('bg-filipino');
+else if(currentSubject==='civics')rs.classList.add('bg-civics');
 }
 
 function showShipReward(){

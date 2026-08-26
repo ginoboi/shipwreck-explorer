@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shipwreck-explorer-v2';
+const CACHE_NAME = 'shipwreck-explorer-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -14,7 +14,11 @@ const ASSETS_TO_CACHE = [
   './images/bg_math.jpg',
   './images/bg_filipino.jpg',
   './images/bg_english.jpg',
-  './images/bg_general.jpg'
+  './images/bg_general.jpg',
+  './images/yamato_trials_1941.jpg',
+  './images/yamato_moored_1943.jpg',
+  './images/yamato_wreck_diorama.webp',
+  './images/yamato_wreck_illustration.png'
 ];
 
 self.addEventListener('install', function(event) {
