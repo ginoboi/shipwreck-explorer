@@ -242,7 +242,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 
 /* ===== VISUAL BOND CIRCLES ===== */
 .bond-circle.visual{flex-direction:column;overflow:hidden;padding:4px}
-.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%;background:#fff;border-radius:50%;padding:4px}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none;border-radius:50%;background:#fff}
+.bond-circle .obj-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;width:100%;height:100%;background:#f0f8ff;border-radius:50%;padding:4px}.obj{display:flex;align-items:center;justify-content:center}.obj-img{display:inline-block;pointer-events:none;border-radius:0;mix-blend-mode:multiply}
 .bond-circle .obj-label{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-size:clamp(10px,2.5vw,13px);color:#ffd700;font-weight:bold;background:rgba(0,52,89,0.85);padding:1px 8px;border-radius:8px;white-space:nowrap}
 .bond-circle.whole.visual{flex-direction:column;padding:6px}
 .bond-circle.whole.visual .obj-label{bottom:-2px}
@@ -1557,7 +1557,7 @@ container.innerHTML=`
 <div class="puzzle-hint" style="font-size:clamp(11px,2.5vw,14px)">Listen and remember! 👂</div>
 </div>
 <div style="text-align:center;padding:4px 0">
-${item.img?'<div style="background:#fff;border-radius:50%;padding:6px;display:inline-block;margin:4px 0"><img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
+${item.img?'<div style="background:#f0f8ff;border-radius:50%;padding:6px;display:inline-block;margin:4px 0"><img src="'+item.img+'" style="width:clamp(48px,14vw,80px);height:auto;object-fit:contain;mix-blend-mode:multiply"></div>':'<div style="font-size:clamp(48px,14vw,80px);line-height:1;margin:4px 0">'+item.emoji+'</div>'}
 <div style="font-size:clamp(22px,6vw,34px);color:#ffd700;font-weight:bold;margin:4px 0">${item.word}</div>
 <div style="font-size:clamp(12px,3vw,16px);color:#4ecdc4;margin-bottom:8px">Letra: ${item.letter}</div>
 <button class="answer-btn" style="font-size:clamp(16px,3.5vw,20px);padding:10px 22px;background:linear-gradient(135deg,#4ecdc4,#44a3aa)" onclick="speakFilipino('${item.word}')">
@@ -1581,7 +1581,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What is this in Filipino? 🇵🇭</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<div style="background:#fff;border-radius:50%;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<div style="background:#f0f8ff;border-radius:50%;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain;mix-blend-mode:multiply"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer">🔊</button>
 </div>
 <div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
@@ -1596,7 +1596,7 @@ container.innerHTML=`
 <div class="puzzle-hint">What letter is this? 🔤</div>
 </div>
 <div style="text-align:center;margin:8px 0">
-${item.img?'<div style="background:#fff;border-radius:50%;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
+${item.img?'<div style="background:#f0f8ff;border-radius:50%;padding:8px;display:inline-block"><img src="'+item.img+'" style="width:clamp(48px,13vw,80px);height:auto;object-fit:contain;mix-blend-mode:multiply"></div>':'<div style="font-size:clamp(56px,15vw,90px)">'+item.emoji+'</div>'}
 <div style="font-size:clamp(16px,4vw,20px);color:#4ecdc4;margin-top:4px">${item.word}</div>
 <button onclick="speakFilipino('${item.word}')" style="background:none;border:none;font-size:28px;cursor:pointer;margin-top:4px">🔊</button>
 </div>
@@ -1795,7 +1795,7 @@ const photoHtml=photos.map((p,i)=>`
 `).join('');
 
 const triviaHtml=ship.trivia.map((t,i)=>`<div style="display:flex;align-items:start;gap:8px;margin-bottom:6px"><span style="color:#ffd700">💡</span><span style="color:#fff;font-size:14px;flex:1">${t}</span><button onclick="speakTrivia(${i})" style="background:rgba(78,205,196,0.3);border:1px solid #4ecdc4;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0;color:#4ecdc4">🔊</button></div>`).join('');
-const _galleryTrivia=ship.trivia;
+window._galleryTrivia=ship.trivia;
 
 grid.innerHTML=`
 <div style="width:92%;max-width:420px;margin:0 auto;overflow-y:auto;max-height:85vh;padding-bottom:80px">
@@ -1823,8 +1823,8 @@ function speakTrivia(idx){
 try{
 if(!window.speechSynthesis)return;
 window.speechSynthesis.cancel();
-if(!_galleryTrivia||!_galleryTrivia[idx])return;
-const u=new SpeechSynthesisUtterance(_galleryTrivia[idx]);
+if(!window._galleryTrivia||!window._galleryTrivia[idx])return;
+const u=new SpeechSynthesisUtterance(window._galleryTrivia[idx]);
 u.lang='en-US';
 u.rate=0.85;
 u.pitch=1.1;
@@ -1835,8 +1835,8 @@ function speakAllTrivia(){
 try{
 if(!window.speechSynthesis)return;
 window.speechSynthesis.cancel();
-if(!_galleryTrivia)return;
-const text=_galleryTrivia.join('. ');
+if(!window._galleryTrivia)return;
+const text=window._galleryTrivia.join('. ');
 const u=new SpeechSynthesisUtterance(text);
 u.lang='en-US';
 u.rate=0.85;
