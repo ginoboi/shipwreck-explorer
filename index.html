@@ -9,13 +9,14 @@
 <meta name="application-name" content="Shipwreck Explorer">
 <meta name="apple-mobile-web-app-title" content="Shipwreck Explorer">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="https://media.base44.com/files/public/6a55a3487fea38a2128e0632/9fbcc6683_app_icon.png">
+<link rel="apple-touch-icon" href="images/app_icon.png">
+<link rel="icon" href="images/app_icon.png" type="image/png">
 <meta name="theme-color" content="#003459">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Shipwreck Explorer">
-<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlNoaXB3cmVjayBFeHBsb3JlciAtIENhcHRhaW4gQWxlYyIsICJzaG9ydF9uYW1lIjogIlNoaXB3cmVjayIsICJkZXNjcmlwdGlvbiI6ICJEaXZlIERlZXAsIExlYXJuIE1vcmUhIENhcHRhaW4gQWxlYydzIExlYXJuaW5nIEFkdmVudHVyZSIsICJzdGFydF91cmwiOiAiLyIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDAxYTMzIiwgInRoZW1lX2NvbG9yIjogIiMwMDM0NTkiLCAiaWNvbnMiOiBbeyJzcmMiOiAiaHR0cHM6Ly9tZWRpYS5iYXNlNDQuY29tL2ZpbGVzL3B1YmxpYy82YTU1YTM0ODdmZWEzOGEyMTI4ZTA2MzIvOWZiY2M2NjgzX2FwcF9pY29uLnBuZyIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn0sIHsic3JjIjogImh0dHBzOi8vbWVkaWEuYmFzZTQ0LmNvbS9maWxlcy9wdWJsaWMvNmE1NWEzNDg3ZmVhMzhhMjEyOGUwNjMyLzlmYmNjNjY4M19hcHBfaWNvbi5wbmciLCAic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9XX0=">
+<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -31,9 +32,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .screen.active{display:flex}
 
 /* ===== UNDERWATER BACKGROUND ===== */
-.underwater{background-image:linear-gradient(180deg,rgba(0,52,89,0.3) 0%,rgba(0,26,51,0.6) 100%),url('https://media.base44.com/files/public/6a55a3487fea38a2128e0632/bb443abec_bg_general.jpg')}
-.deepwater{background-image:linear-gradient(180deg,rgba(0,52,89,0.4) 0%,rgba(0,10,20,0.7) 100%),url('https://media.base44.com/files/public/6a55a3487fea38a2128e0632/bb443abec_bg_general.jpg')}
-.surface{background-image:linear-gradient(180deg,rgba(0,52,89,0.2) 0%,rgba(0,26,51,0.5) 100%),url('https://media.base44.com/files/public/6a55a3487fea38a2128e0632/bb443abec_bg_general.jpg')}
+.underwater{background-image:linear-gradient(180deg,rgba(0,52,89,0.3) 0%,rgba(0,26,51,0.6) 100%),url('images/bg_general.jpg')}
+.deepwater{background-image:linear-gradient(180deg,rgba(0,52,89,0.4) 0%,rgba(0,10,20,0.7) 100%),url('images/bg_general.jpg')}
+.surface{background-image:linear-gradient(180deg,rgba(0,52,89,0.2) 0%,rgba(0,26,51,0.5) 100%),url('images/bg_general.jpg')}
 
 /* ===== BUBBLES ===== */
 .bubble{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.4),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.15);pointer-events:none;animation:rise linear infinite;box-shadow:0 0 8px rgba(78,205,196,0.1)}
@@ -222,9 +223,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .depth-dot{width:12px;height:12px;border-radius:50%;background:rgba(78,205,196,0.2);border:2px solid rgba(78,205,196,0.3)}
 .depth-dot.active{background:#ffd700;border-color:#ffd700;box-shadow:0 0 6px rgba(255,215,0,0.4)}
 .depth-label{font-size:10px;color:#4ecdc4;margin-left:6px}
-.bg-math{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('https://media.base44.com/files/public/6a55a3487fea38a2128e0632/26c557a28_bg_math.jpg')!important}
-.bg-english{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('https://media.base44.com/files/public/6a55a3487fea38a2128e0632/4a2a4484c_bg_english.jpg')!important}
-.bg-filipino{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('https://media.base44.com/files/public/6a55a3487fea38a2128e0632/46fd1bd4a_bg_filipino.jpg')!important}
+.bg-math{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_math.jpg')!important}
+.bg-english{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_english.jpg')!important}
+.bg-filipino{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_filipino.jpg')!important}
 
 /* ===== CAPTAIN AVATAR + GREETING ===== */
 .captain-avatar{width:clamp(90px,22vw,140px);height:clamp(90px,22vw,140px);border-radius:50%;margin:0 auto 12px;display:block;object-fit:cover;object-position:center 25%;animation:avatarFloat 3s ease-in-out infinite;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
@@ -294,7 +295,7 @@ img.emoji{height:1em;width:1em;margin:0 .05em;vertical-align:-0.1em;object-fit:c
 
 <!-- ===== TITLE SCREEN ===== -->
 <div class="screen surface active" id="title-screen">
-<img class="captain-avatar" id="avatar-img" src="https://media.base44.com/files/public/6a55a3487fea38a2128e0632/7c20a3fe3_alec_avatar.png" alt="Captain Alec">
+<img class="captain-avatar" id="avatar-img" src="images/alec_avatar.png" alt="Captain Alec">
 <div class="captain-greeting" id="captain-greeting"></div>
 <div class="sub-icon" id="sub-icon"></div>
 <div class="game-title" id="game-title"></div>
@@ -363,7 +364,7 @@ const THEME={
   appName:'Shipwreck Explorer',
   kidName:'Alec',
   kidTitle:'Captain Alec',
-  avatar:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/7c20a3fe3_alec_avatar.png',
+  avatar:'images/alec_avatar.png',
   titleText:'SHIPWRECK EXPLORER',
   subtitleText:'Dive Deep, Learn More!',
   mainEmoji:'\u{1F6A2}',
@@ -435,25 +436,25 @@ document.addEventListener('touchstart',startAudioOnInteraction);
 
 // ===== AI-GENERATED IMAGES (child-safe flat illustrations) =====
 const GAME_IMAGES={
-apple:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/65fa0fe26_generated_image.png',
-fish:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/2fcb3de5d_generated_image.png',
-star:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/47992817f_generated_image.png',
-banana:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/eaec65658_generated_image.png',
-duck:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/e7e4cf7d0_generated_image.png',
-house:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/e35f4a9e9_generated_image.png',
-tomato:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/76922149a_generated_image.png',
-dog:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/ca410f128_generated_image.png',
-mouse:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/00bc1a1d7_generated_image.png',
-elephant:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/d30c77e84_generated_image.png',
-milk:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/f56a730d3_generated_image.png',
-tin:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/d96622078_generated_image.png',
-clock:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/68437c92c_generated_image.png',
-radio:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/bec0564d4_generated_image.png',
-rain:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/506f7ebf5_generated_image.png',
-flag:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/5cb0bcf99_generated_image.png',
-mother:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/ff2d5e854_generated_image.png',
-sunset:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/96fb94652_generated_image.png',
-hug:'https://media.base44.com/images/public/6a55a3487fea38a2128e0632/b5232893b_generated_image.png'
+apple:'images/65fa0fe26_generated_image.png',
+fish:'images/2fcb3de5d_generated_image.png',
+star:'images/47992817f_generated_image.png',
+banana:'images/eaec65658_generated_image.png',
+duck:'images/e7e4cf7d0_generated_image.png',
+house:'images/e35f4a9e9_generated_image.png',
+tomato:'images/76922149a_generated_image.png',
+dog:'images/ca410f128_generated_image.png',
+mouse:'images/00bc1a1d7_generated_image.png',
+elephant:'images/d30c77e84_generated_image.png',
+milk:'images/f56a730d3_generated_image.png',
+tin:'images/d96622078_generated_image.png',
+clock:'images/68437c92c_generated_image.png',
+radio:'images/bec0564d4_generated_image.png',
+rain:'images/506f7ebf5_generated_image.png',
+flag:'images/5cb0bcf99_generated_image.png',
+mother:'images/ff2d5e854_generated_image.png',
+sunset:'images/96fb94652_generated_image.png',
+hug:'images/b5232893b_generated_image.png'
 };
 const BOND_OBJECTS=[
 {img:GAME_IMAGES.apple,name:'apple'},
@@ -747,51 +748,51 @@ return this.musicEnabled;
 
 // ===== SHIP DATA =====
 THEME.rewards=[
-{id:0,name:'Vasa',photo:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/a7bf9d98f_vasa.jpg',emoji:'🚢',depth:'Stockholm, 1628',desc:'Swedish warship that sank on its maiden voyage',trivia:['Sank in 1628 on its very first voyage','Was top-heavy and tipped over from too many cannons','Salvaged in 1961 and is now a museum in Stockholm','Survived 333 years underwater!'],rarity:'COMMON',unlockCost:0,
+{id:0,name:'Vasa',photo:'images/vasa.jpg',emoji:'🚢',depth:'Stockholm, 1628',desc:'Swedish warship that sank on its maiden voyage',trivia:['Sank in 1628 on its very first voyage','Was top-heavy and tipped over from too many cannons','Salvaged in 1961 and is now a museum in Stockholm','Survived 333 years underwater!'],rarity:'COMMON',unlockCost:0,
 galleryPhotos:[
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/Vasa_from_port1.jpg',caption:'The Vasa on display at the Vasa Museum in Stockholm'},
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/Vasa_stockholm.JPG',caption:'The restored ship inside the museum'},
-{src:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/a7bf9d98f_vasa.jpg',caption:'The Vasa, Sweden\'s famous warship'}
+{src:'images/vasa.jpg',caption:'The Vasa, Sweden\'s famous warship'}
 ],
 history:'King Gustav II Adolf of Sweden ordered the Vasa in 1625. It was the biggest, most powerful warship Sweden had ever built, with 64 cannons on two decks. But the ship was too tall and too heavy on top. On August 10, 1628, the Vasa set sail for the first time, fired a salute, sailed less than a mile, and tipped over and sank! About 30 people drowned. The ship stayed underwater for 333 years until it was raised in 1961. Today it sits in a museum in Stockholm, almost perfectly preserved.'},
 
-{id:1,name:'Mary Rose',photo:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/56d13c613_maryrose.jpg',emoji:'⛵',depth:'Portsmouth, 1545',desc:'King Henry VIII\'s favorite warship',trivia:['Sank in 1545 during a battle with the French','Belonged to King Henry VIII of England','Carried over 400 men when it sank','Raised in 1982 and is now a museum'],rarity:'RARE',unlockCost:15,
+{id:1,name:'Mary Rose',photo:'images/maryrose.jpg',emoji:'⛵',depth:'Portsmouth, 1545',desc:'King Henry VIII\'s favorite warship',trivia:['Sank in 1545 during a battle with the French','Belonged to King Henry VIII of England','Carried over 400 men when it sank','Raised in 1982 and is now a museum'],rarity:'RARE',unlockCost:15,
 galleryPhotos:[
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/MaryRose-conservation1.jpg',caption:'The Mary Rose under conservation at Portsmouth'},
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/MaryRose-ship_hall.jpg',caption:'Inside the Mary Rose museum hall'},
-{src:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/56d13c613_maryrose.jpg',caption:'The Mary Rose, King Henry VIII\'s warship'}
+{src:'images/maryrose.jpg',caption:'The Mary Rose, King Henry VIII\'s warship'}
 ],
 history:'The Mary Rose was one of the first ships built for the English Navy, ordered by King Henry VIII in 1510. It was his favorite ship and served for 34 years in many battles. On July 19, 1545, while fighting the French fleet, the Mary Rose suddenly tipped over and sank. Over 400 sailors drowned. The king watched it happen from the shore. The ship was raised in 1982, and now you can see it in Portsmouth, England, along with thousands of objects found inside, including longbows, coins, and even the skeleton of the ship dog!'},
 
-{id:2,name:'HMS Britannia',photo:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/6cbdfd148_britannia.jpg',emoji:'🛳️',depth:'English Channel, 1918',desc:'British ship torpedoed in WWI',trivia:['Sank in 1918 during World War I','Hit by a German submarine torpedo','Was a Royal Navy battleship','Over 500 sailors were on board'],rarity:'RARE',unlockCost:30,
+{id:2,name:'HMS Britannia',photo:'images/britannia.jpg',emoji:'🛳️',depth:'English Channel, 1918',desc:'British ship torpedoed in WWI',trivia:['Sank in 1918 during World War I','Hit by a German submarine torpedo','Was a Royal Navy battleship','Over 500 sailors were on board'],rarity:'RARE',unlockCost:30,
 galleryPhotos:[
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/HMS_Britannia.jpg',caption:'HMS Britannia, a King Edward VII-class battleship'},
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/King-Edward-Class.png',caption:'Diagram of a King Edward VII-class battleship'},
-{src:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/6cbdfd148_britannia.jpg',caption:'HMS Britannia at sea'}
+{src:'images/britannia.jpg',caption:'HMS Britannia at sea'}
 ],
 history:'HMS Britannia was a King Edward VII-class battleship built for the British Royal Navy in 1904. It was a powerful ship with four 12-inch guns and could travel at 18.5 knots. During World War I, the Britannia patrolled the seas and escorted convoys. On November 9, 1918, just two days before the war ended, a German submarine fired a torpedo that hit the ship. The Britannia sank off the coast of Cape Trafalgar, Spain. About 50 of the 600 sailors died. It was one of the last British warships sunk in World War I.'},
 
-{id:3,name:'RMS Lusitania',photo:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/b1b273a37_lusitania.jpg',emoji:'🚢',depth:'Irish Coast, 1915',desc:'Luxury liner sunk by a U-boat',trivia:['Sank in 1915 during World War I','Was a luxury passenger ship','Torpedoed by a German U-boat','1,198 people lost their lives'],rarity:'EPIC',unlockCost:50,
+{id:3,name:'RMS Lusitania',photo:'images/lusitania.jpg',emoji:'🚢',depth:'Irish Coast, 1915',desc:'Luxury liner sunk by a U-boat',trivia:['Sank in 1915 during World War I','Was a luxury passenger ship','Torpedoed by a German U-boat','1,198 people lost their lives'],rarity:'EPIC',unlockCost:50,
 galleryPhotos:[
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/Lusitania_launch.jpg',caption:'The Lusitania being launched in 1906'},
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/RMS_Lusitania_coming_into_port,_possibly_in_New_York,_1907-13-crop.jpg',caption:'The Lusitania arriving in New York'},
-{src:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/b1b273a37_lusitania.jpg',caption:'RMS Lusitania, the luxury ocean liner'}
+{src:'images/lusitania.jpg',caption:'RMS Lusitania, the luxury ocean liner'}
 ],
 history:'The RMS Lusitania was one of the biggest, fastest, and most beautiful passenger ships in the world. It could carry nearly 2,000 people and cross the Atlantic Ocean in just 5 days! On May 7, 1915, during World War I, a German submarine fired a single torpedo at the Lusitania off the coast of Ireland. The ship sank in just 18 minutes. 1,198 people died, including 128 Americans. This event made the United States very angry and helped convince them to join the war against Germany. The wreck lies 300 feet underwater and is now a protected site.'},
 
-{id:4,name:'Bismarck',photo:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/4f2514e47_bismarck.jpg',emoji:'⚔️',depth:'Atlantic Ocean, 1941',desc:'Germany\'s most feared battleship',trivia:['Sank in 1941 during World War II','Was Nazi Germany\'s biggest battleship','Hunted by the British Navy for 3 days','Found by explorer Robert Ballard in 1989'],rarity:'EPIC',unlockCost:80,
+{id:4,name:'Bismarck',photo:'images/bismarck.jpg',emoji:'⚔️',depth:'Atlantic Ocean, 1941',desc:'Germany\'s most feared battleship',trivia:['Sank in 1941 during World War II','Was Nazi Germany\'s biggest battleship','Hunted by the British Navy for 3 days','Found by explorer Robert Ballard in 1989'],rarity:'EPIC',unlockCost:80,
 galleryPhotos:[
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/German_Battleship_Bismarck_in_the_Grimstadfjord.jpg',caption:'The Bismarck in a Norwegian fjord, May 1941'},
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/Battleship_Bismarck_burning_and_sinking_1941.jpg',caption:'The Bismarck burning before sinking'},
-{src:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/4f2514e47_bismarck.jpg',caption:'The Bismarck, Germany\'s most feared battleship'}
+{src:'images/bismarck.jpg',caption:'The Bismarck, Germany\'s most feared battleship'}
 ],
 history:'The Bismarck was Nazi Germany\'s biggest and most powerful battleship, launched in 1939. It was 823 feet long and had eight 15-inch guns. In May 1941, the Bismarck sailed into the Atlantic to attack British supply ships. The British Navy chased it for three days. The Bismarck sank the British ship HMS Hood first, but then the British surrounded it. On May 27, 1941, the Bismarck was hit by dozens of shells and torpedoes and sank. Only 115 of the 2,200 sailors survived. The wreck was found in 1989 by explorer Robert Ballard, resting 4.7 kilometers underwater on the side of an underwater mountain.'},
 
-{id:5,name:'RMS Titanic',photo:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/c664beb10_titanic.jpg',emoji:'🛳️',depth:'North Atlantic, 1912',desc:'The most famous shipwreck in the world',trivia:['Sank on April 15, 1912 after hitting an iceberg','Was called "unsinkable"','Over 1,500 people lost their lives','Was found in 1985 by Robert Ballard','The wreckage is 3,800 meters deep!'],rarity:'LEGENDARY',unlockCost:120,
+{id:5,name:'RMS Titanic',photo:'images/titanic.jpg',emoji:'🛳️',depth:'North Atlantic, 1912',desc:'The most famous shipwreck in the world',trivia:['Sank on April 15, 1912 after hitting an iceberg','Was called "unsinkable"','Over 1,500 people lost their lives','Was found in 1985 by Robert Ballard','The wreckage is 3,800 meters deep!'],rarity:'LEGENDARY',unlockCost:120,
 galleryPhotos:[
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/RMS_Titanic_3.jpg',caption:'The Titanic at Southampton, April 1912'},
 {src:'https://commons.wikimedia.org/wiki/Special:FilePath/Titanic_in_color.png',caption:'A colorized photo of the Titanic'},
-{src:'https://media.base44.com/files/public/6a55a3487fea38a2128e0632/c664beb10_titanic.jpg',caption:'RMS Titanic, the most famous shipwreck'}
+{src:'images/titanic.jpg',caption:'RMS Titanic, the most famous shipwreck'}
 ],
 history:'The RMS Titanic was the largest ship in the world when it was built in 1912. It was 882 feet long and had a swimming pool, a gym, and a grand staircase! People said it was "unsinkable." On its very first trip from England to New York, on the night of April 14, 1912, the Titanic hit a giant iceberg in the dark. The ship had 2,224 people on board but only 20 lifeboats, enough for half the people. The ship sank in 2 hours and 40 minutes. 1,517 people died in the freezing water. The wreck was found in 1985 by Robert Ballard, 3,800 meters underwater. The ship is now split in two pieces on the ocean floor.'}
 ];
@@ -2085,6 +2086,15 @@ function installApp(){
     `;
     document.body.appendChild(modal);
   }
+}
+</script>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').then(function(reg){
+    console.log('SW registered:', reg.scope);
+  }).catch(function(err){
+    console.log('SW registration failed:', err);
+  });
 }
 </script>
 </body>
