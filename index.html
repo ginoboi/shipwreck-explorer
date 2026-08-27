@@ -227,6 +227,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .bg-english{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_english.jpg')!important}
 .bg-filipino{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_filipino.jpg')!important}
 .bg-civics{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_general.jpg')!important}
+.bg-religion{background-image:linear-gradient(180deg,rgba(0,52,89,0.35) 0%,rgba(0,26,51,0.65) 100%),url('images/bg_general.jpg')!important}
 
 /* ===== CAPTAIN AVATAR + GREETING ===== */
 .captain-avatar{width:clamp(90px,22vw,140px);height:clamp(90px,22vw,140px);border-radius:50%;margin:0 auto 12px;display:block;object-fit:cover;object-position:center 25%;animation:avatarFloat 3s ease-in-out infinite;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
@@ -804,7 +805,16 @@ galleryPhotos:[
 {src:'images/yamato_wreck_diorama.webp',caption:'Museum diorama of Yamato wreck on the seafloor'},
 {src:'images/yamato_wreck_illustration.png',caption:'Illustration: Yamato resting on the ocean floor'}
 ],
-history:'The Yamato was the pride of the Imperial Japanese Navy and the largest battleship ever built. It was 263 meters long and had nine 18.1-inch guns, the biggest ever mounted on a warship. The Yamato was launched in 1940 and joined the Japanese fleet in 1941. For most of World War II, the Yamato stayed near Japan because it was so valuable. In April 1945, the Japanese sent the Yamato on a desperate mission to Okinawa called Operation Ten-Go. American aircraft attacked with bombs and torpedoes. The Yamato exploded and sank on April 7, 1945. Only 269 of the 3,332 sailors survived. The wreck was found in 1982, 350 meters underwater, broken in two pieces.'}
+history:'The Yamato was the pride of the Imperial Japanese Navy and the largest battleship ever built. It was 263 meters long and had nine 18.1-inch guns, the biggest ever mounted on a warship. The Yamato was launched in 1940 and joined the Japanese fleet in 1941. For most of World War II, the Yamato stayed near Japan because it was so valuable. In April 1945, the Japanese sent the Yamato on a desperate mission to Okinawa called Operation Ten-Go. American aircraft attacked with bombs and torpedoes. The Yamato exploded and sank on April 7, 1945. Only 269 of the 3,332 sailors survived. The wreck was found in 1982, 350 meters underwater, broken in two pieces.'},
+
+{id:7,name:'Costa Concordia',photo:'images/costa_before.jpg',emoji:'⛴️',depth:'Giglio Island, Italy, 2012',desc:'A modern cruise ship that ran aground',trivia:['Ran aground on January 13, 2012','Hit rocks near Giglio Island, Italy','Carried over 4,200 people onboard','32 people sadly lost their lives','Took 2 years and a huge crane operation to lift it back up!'],rarity:'LEGENDARY',unlockCost:180,
+galleryPhotos:[
+{src:'images/costa_before.jpg',caption:'The Costa Concordia sailing before the accident'},
+{src:'images/costa_aground.jpg',caption:'The ship tipped on its side near Giglio Island'},
+{src:'images/costa_giglio.jpg',caption:'The wreck resting near the island port'},
+{src:'images/costa_parbuckling.jpg',caption:'Engineers lifting the ship upright again in 2013'}
+],
+history:'The Costa Concordia was a giant modern cruise ship, longer than 3 football fields, that could carry over 4,200 people. On January 13, 2012, the captain sailed too close to Giglio Island in Italy to show off. The ship hit underwater rocks, which tore a huge hole in its side. Water rushed in and the ship tipped over on its side near the shore. Most of the passengers and crew were rescued, but sadly 32 people lost their lives. The ship was too big and heavy to just tow away, so engineers built a giant underwater platform and used huge machines to slowly roll the ship upright again in September 2013. This amazing engineering operation is called "parbuckling." It took nearly two more years to finally remove the ship completely in 2014.'}
 ];
 
 // ===== CURRICULUM DATA// ===== CURRICULUM DATA =====
@@ -880,6 +890,42 @@ question:'What do we need to DRINK every day?',options:['Water','Soda','Juice','
 let civicsPhase='teach';
 let civicsItem=null;
 let civicsUsed=[];
+
+// ===== RELIGION: GOD IS OUR FATHER =====
+const RELIGION_LESSONS=[
+{topic:'God Our Father',emoji:'🙏',prompt:'You have a Father in Heaven. His name is God! He is your Father, and the Father of all of us.',
+question:'Who is your Father in Heaven?',options:['God','A king','A teacher','A neighbor'],answer:0},
+{topic:'God Made Everything',emoji:'🌎',prompt:'God is the One Who made us. He made the world, the sun, the stars, the flowers, and all the animals!',
+question:'Who made the world and all the animals?',options:['A wizard','The moon','God','Nobody'],answer:2},
+{topic:'Why God Made You',emoji:'❤️',prompt:'Why did God make you? God made you because He loves you very much!',
+question:'Why did God make you?',options:['By accident','Because He loves you','Because He was bored','No reason'],answer:1},
+{topic:'God Gives Us Gifts',emoji:'🎁',prompt:'God loves you, so He gives you all the things you need: food, clothes, and a home!',
+question:'Why does God give us food and clothes?',options:['Because we asked','By accident','Because He loves us','No reason'],answer:2},
+{topic:'Why Called Father',emoji:'👨‍👧',prompt:'God is called Father because He is the Creator of the world and takes care of us.',
+question:'Why is God called Father?',options:['He is old','He created the world','He has a house','He likes the name'],answer:1},
+{topic:'God Cares For Us',emoji:'🤗',prompt:'God our Father shows His love by caring for His children — that means caring for you!',
+question:'How does God show His love?',options:['By hiding','By caring for us','By being far away','He does not'],answer:1},
+{topic:'What Is Prayer',emoji:'🕊️',prompt:'When you talk to God, He always hears you. That is what prayer is: talking with God!',
+question:'What is prayer?',options:['Sleeping','Singing only','Talking with God','Reading'],answer:2},
+{topic:'The Our Father Prayer',emoji:'📖',prompt:'God wants us to call Him "Father." He gave us a special prayer called the Our Father.',
+question:'What is the special prayer called?',options:['Good Morning','Happy Birthday','The Our Father','The ABC Song'],answer:2}
+];
+let religionPhase='teach';
+let religionItem=null;
+let religionUsed=[];
+
+// ===== VOWELS & CONSONANTS REVIEW =====
+const ALL_LETTERS=[
+{letter:'A',isVowel:true},{letter:'B',isVowel:false},{letter:'C',isVowel:false},{letter:'D',isVowel:false},
+{letter:'E',isVowel:true},{letter:'F',isVowel:false},{letter:'G',isVowel:false},{letter:'H',isVowel:false},
+{letter:'I',isVowel:true},{letter:'J',isVowel:false},{letter:'K',isVowel:false},{letter:'L',isVowel:false},
+{letter:'M',isVowel:false},{letter:'N',isVowel:false},{letter:'O',isVowel:true},{letter:'P',isVowel:false},
+{letter:'Q',isVowel:false},{letter:'R',isVowel:false},{letter:'S',isVowel:false},{letter:'T',isVowel:false},
+{letter:'U',isVowel:true},{letter:'V',isVowel:false},{letter:'W',isVowel:false},{letter:'X',isVowel:false},
+{letter:'Y',isVowel:false},{letter:'Z',isVowel:false}
+];
+let englishRoundIndex=0;
+let phonicsUsed=[];
 
 // English spelling words (3-4 letters, picture-based)
 const SPELLING_WORDS=[
@@ -1094,7 +1140,7 @@ this.unlockedCards.push(shipId);this.save();
 },
 shipComplete(shipId){
 const p=this.shipProgress[shipId]||{};
-return p.math&&p.english&&p.filipino&&p.civics;
+return p.math&&p.english&&p.filipino&&p.civics&&p.religion;
 },
 markSubject(shipId,subject){
 const p=this.shipProgress[shipId]||{};
@@ -1214,12 +1260,12 @@ card.style.borderColor='#ffd700';
 card.onclick=()=>{Audio.wrong()};
 }
 const subjects=Progress.shipProgress[ship.id]||{};
-const doneCount=(subjects.math?1:0)+(subjects.english?1:0)+(subjects.filipino?1:0)+(subjects.civics?1:0);
+const doneCount=(subjects.math?1:0)+(subjects.english?1:0)+(subjects.filipino?1:0)+(subjects.civics?1:0)+(subjects.religion?1:0);
 card.innerHTML=`
 ${unlocked||canUnlock?`<img class="ship-photo" src="${ship.photo}" alt="${ship.name}" onerror="this.style.display='none'">`:'<div class="ship-emoji">🔒</div>'}
 <div class="ship-name">${unlocked?ship.name:'???'}</div>
 <div class="ship-sub">${unlocked?ship.desc:'Need '+ship.unlockCost+' 🪙'}</div>
-${unlocked?`<div class="ship-progress">${doneCount}/4 ⭐</div>`:''}
+${unlocked?`<div class="ship-progress">${doneCount}/5 ⭐</div>`:''}
 ${unlocked?`<div class="difficulty-badge">${completed?'✅ Complete':'Ready to explore'}</div>`:''}
 `;
 grid.appendChild(card);
@@ -1240,7 +1286,8 @@ const subjects=[
 {id:'math',name:'Math',icon:'🔢',desc:'Number bonds & addition',done:sp.math},
 {id:'english',name:'English',icon:'🔤',desc:'Spelling & letters',done:sp.english},
 {id:'filipino',name:'Filipino',icon:'🇵🇭',desc:'Alpabetong Filipino',done:sp.filipino},
-{id:'civics',name:'Civics',icon:'🏛️',desc:'Basic needs: food, clothes, shelter',done:sp.civics}
+{id:'civics',name:'Civics',icon:'🏛️',desc:'Basic needs: food, clothes, shelter',done:sp.civics},
+{id:'religion',name:'Religion',icon:'🙏',desc:'God Is Our Father',done:sp.religion}
 ];
 grid.innerHTML='';
 subjects.forEach(s=>{
@@ -1253,7 +1300,7 @@ card.innerHTML=`
 <div class="subject-info">
 <div class="subject-name">${s.name}</div>
 <div class="subject-desc">${s.desc}</div>
-<div class="subject-stars">${s.done?'⭐⭐⭐⭐ Complete!':'⭐⭐⭐⭐'}</div>
+<div class="subject-stars">${s.done?'⭐⭐⭐⭐⭐ Complete!':'⭐⭐⭐⭐⭐'}</div>
 <div class="depth-meter">${[1,2,3,4,5].map(n=>`<div class="depth-dot ${n<=d.level?'active':''}"></div>`).join('')}<span class="depth-label">Depth</span></div>
 </div>
 `;
@@ -1267,11 +1314,12 @@ Audio.setPageTrack('puzzle-'+subject);
 currentSubject=subject;
 puzzleCount=0;
 const ps=document.getElementById('puzzle-screen');
-ps.classList.remove('bg-math','bg-english','bg-filipino','bg-civics');
+ps.classList.remove('bg-math','bg-english','bg-filipino','bg-civics','bg-religion');
 if(subject==='math')ps.classList.add('bg-math');
 else if(subject==='english')ps.classList.add('bg-english');
 else if(subject==='filipino')ps.classList.add('bg-filipino');
 else if(subject==='civics')ps.classList.add('bg-civics');
+else if(subject==='religion')ps.classList.add('bg-religion');
 document.getElementById('hud').classList.remove('hidden');
 document.getElementById('hud-music').textContent=Audio.musicEnabled?'🎵 ON':'🔇 OFF';
 updateHUD();
@@ -1304,6 +1352,7 @@ if(currentSubject==='math')renderMath(c,level);
 else if(currentSubject==='english')renderEnglish(c,level);
 else if(currentSubject==='filipino')renderFilipino(c,level);
 else if(currentSubject==='civics')renderCivics(c,level);
+else if(currentSubject==='religion')renderReligion(c,level);
 twemojiParse();
 }
 
@@ -1429,6 +1478,8 @@ grid.appendChild(btn);
 const recentWords=[]; // Track recently used words to prevent repeats
 const MAX_RECENT=15;
 function renderEnglish(container,level){
+englishRoundIndex++;
+if(englishRoundIndex%2===0){renderPhonics(container,level);return}
 if(level<=2){
 var pool=SPELLING_WORDS.filter(w=>w.word.length===3);
 }else if(level<=3){
@@ -1647,6 +1698,101 @@ ${options.map(o=>`<button class="answer-btn" onclick="handleFilipinoAnswer('${o.
 
 
 // ===== CIVICS PUZZLES (Basic Needs: Food, Clothes, Shelter, Water) =====
+function renderPhonics(container,level){
+// Pick a letter not recently used
+let pool=ALL_LETTERS.filter(l=>!phonicsUsed.includes(l.letter));
+if(pool.length<4){phonicsUsed=[];pool=ALL_LETTERS}
+const item=pool[Math.floor(Math.random()*pool.length)];
+phonicsUsed.push(item.letter);
+currentPuzzleData={answer:item.isVowel?'Vowel':'Consonant',type:'phonics'};
+
+container.innerHTML=`
+<div class="puzzle-question">
+<div class="puzzle-prompt">Vowel or Consonant? 🔤</div>
+<div class="puzzle-hint">The 5 VOWELS are A E I O U. All other letters are CONSONANTS!</div>
+</div>
+<div style="text-align:center;margin:8px 0">
+<div style="background:linear-gradient(135deg,#003459,#006994);border-radius:20px;padding:16px;display:inline-block;width:clamp(70px,20vw,110px);height:clamp(70px,20vw,110px);display:flex;align-items:center;justify-content:center">
+<span style="font-size:clamp(40px,12vw,64px);color:#ffd700;font-weight:bold">${item.letter}</span>
+</div>
+</div>
+<div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
+<button class="answer-btn" style="font-size:clamp(15px,3.8vw,20px);padding:14px 8px" onclick="handlePhonicsAnswer(${item.isVowel},this)">🎵 Vowel</button>
+<button class="answer-btn" style="font-size:clamp(15px,3.8vw,20px);padding:14px 8px" onclick="handlePhonicsAnswer(${!item.isVowel},this)">🔤 Consonant</button>
+</div>
+`;
+twemojiParse();
+}
+
+function handlePhonicsAnswer(correct,btn){
+handleAnswer(correct,btn);
+}
+
+// ===== RELIGION PUZZLES (God Is Our Father) =====
+function renderReligion(container,level){
+let item;
+if(religionPhase==='quiz'&&religionItem){
+item=religionItem;
+}else{
+let pool=RELIGION_LESSONS.filter(f=>!religionUsed.includes(f.topic));
+if(pool.length<3){religionUsed=[];pool=RELIGION_LESSONS}
+item=pool[Math.floor(Math.random()*pool.length)];
+religionUsed.push(item.topic);
+religionItem=item;
+}
+currentPuzzleData={answer:item.options[item.answer],type:'religion'};
+
+if(religionPhase==='teach'){
+container.innerHTML=`
+<div class="puzzle-question" style="padding:12px 24px">
+<div class="puzzle-prompt" style="font-size:clamp(16px,4vw,24px);margin-bottom:4px">${item.topic}</div>
+<div class="puzzle-hint" style="font-size:clamp(11px,2.5vw,14px)">Listen and remember! 👂</div>
+</div>
+<div style="text-align:center;padding:4px 0">
+<div style="background:linear-gradient(135deg,#003459,#006994);border-radius:50%;padding:12px;display:inline-block;margin:4px 0;width:clamp(64px,18vw,100px);height:clamp(64px,18vw,100px);display:flex;align-items:center;justify-content:center">
+<span style="font-size:clamp(36px,10vw,56px)">${item.emoji}</span>
+</div>
+<div style="font-size:clamp(16px,4.2vw,22px);color:#ffd700;font-weight:bold;margin:8px 0;line-height:1.4">${item.prompt}</div>
+</div>
+<button class="btn" style="margin-top:4px;padding:10px 24px" onclick="religionShowQuiz()">✅ Got it! Quiz Time</button>
+`;
+twemojiParse();
+}else{
+religionPhase='teach';
+const correctIdx=item.answer;
+const indexedOptions=item.options.map((opt,idx)=>({opt,idx}));
+const shuffled=indexedOptions.sort(()=>Math.random()-0.5);
+container.innerHTML=`
+<div class="puzzle-question">
+<div class="puzzle-prompt">${item.question}</div>
+<div class="puzzle-hint">Tap the correct answer! 🧠</div>
+</div>
+<div style="text-align:center;margin:8px 0">
+<div style="background:linear-gradient(135deg,#003459,#006994);border-radius:50%;padding:12px;display:inline-block;width:clamp(64px,18vw,100px);height:clamp(64px,18vw,100px);display:flex;align-items:center;justify-content:center">
+<span style="font-size:clamp(36px,10vw,56px)">${item.emoji}</span>
+</div>
+</div>
+<div class="answer-grid" style="grid-template-columns:repeat(2,1fr)">
+${shuffled.map(o=>`<button class="answer-btn" style="font-size:clamp(14px,3.5vw,18px);padding:14px 8px" onclick="handleReligionAnswer(${o.idx===correctIdx},this)">${o.opt}</button>`).join('')}
+</div>
+`;
+}
+}
+
+function religionShowQuiz(){
+Audio.click();
+religionPhase='quiz';
+const c=document.getElementById('puzzle-container');
+c.innerHTML='';
+const level=Difficulty.get(currentSubject).level;
+renderReligion(c,level);
+twemojiParse();
+}
+
+function handleReligionAnswer(correct,btn){
+handleAnswer(correct,btn);
+}
+
 function renderCivics(container,level){
 let item;
 if(civicsPhase==='quiz'&&civicsItem){
@@ -1838,11 +1984,12 @@ document.getElementById('reward-container').innerHTML=`
 showScreen('reward-screen');
 twemojiParse();
 const rs=document.getElementById('reward-screen');
-rs.classList.remove('bg-math','bg-english','bg-filipino','bg-civics');
+rs.classList.remove('bg-math','bg-english','bg-filipino','bg-civics','bg-religion');
 if(currentSubject==='math')rs.classList.add('bg-math');
 else if(currentSubject==='english')rs.classList.add('bg-english');
 else if(currentSubject==='filipino')rs.classList.add('bg-filipino');
 else if(currentSubject==='civics')rs.classList.add('bg-civics');
+else if(currentSubject==='religion')rs.classList.add('bg-religion');
 }
 
 function showShipReward(){
