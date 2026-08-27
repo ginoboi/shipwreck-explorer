@@ -304,6 +304,7 @@ img.emoji{height:1em;width:1em;margin:0 .05em;vertical-align:-0.1em;object-fit:c
 <div class="game-subtitle" id="game-subtitle"></div>
 <button class="btn" onclick="startGame()" id="dive-btn"></button>
 <button class="btn btn-blue" onclick="showGallery()" id="gallery-btn"></button>
+<button class="btn" style="background:linear-gradient(135deg,#FF6B35,#F7931E);color:#fff" onclick="showArcade()" id="arcade-btn">🎮 Treasure Cove</button>
 <div class="tap-hint" id="tap-hint"></div>
 </div>
 
@@ -329,6 +330,42 @@ img.emoji{height:1em;width:1em;margin:0 .05em;vertical-align:-0.1em;object-fit:c
 <!-- ===== REWARD SCREEN ===== -->
 <div class="screen underwater" id="reward-screen">
 <div class="reward-container" id="reward-container"></div>
+</div>
+
+<!-- ===== ARCADE SCREEN ===== -->
+<div class="screen underwater" id="arcade-screen">
+<div class="section-title">🎮 Treasure Cove</div>
+<div style="text-align:center;color:#4ecdc4;font-size:clamp(12px,3vw,15px);margin-bottom:14px">Spend your coins on fun games!</div>
+<div class="subject-grid" id="arcade-grid" style="max-width:400px;margin:0 auto"></div>
+<button class="btn btn-blue" onclick="showTitle()" style="margin-top:16px">⬅️ Back</button>
+</div>
+
+<!-- ===== TREASURE DIVE GAME SCREEN ===== -->
+<div class="screen deepwater" id="dive-game-screen" style="overflow:hidden;position:relative;padding:0">
+<canvas id="dive-canvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+<div id="dive-hud" style="position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:center;z-index:5;pointer-events:none">
+<div style="background:rgba(0,26,51,0.8);border-radius:8px;padding:4px 10px;color:#ffd700;font-size:clamp(14px,3.5vw,18px);font-weight:bold">🪙 <span id="dive-score">0</span></div>
+<div style="background:rgba(0,26,51,0.8);border-radius:8px;padding:4px 10px;color:#4ecdc4;font-size:clamp(14px,3.5vw,18px);font-weight:bold">💧 <span id="dive-depth">0</span>m</div>
+</div>
+<div id="dive-game-over" style="position:absolute;inset:0;background:rgba(0,0,0,0.7);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;padding:20px">
+<div style="font-size:clamp(40px,12vw,64px);margin-bottom:8px" id="dive-result-emoji">🏊</div>
+<div style="color:#ffd700;font-size:clamp(20px,5vw,28px);font-weight:bold;margin-bottom:4px" id="dive-result-title">Dive Complete!</div>
+<div style="color:#fff;font-size:clamp(14px,3.5vw,18px);margin-bottom:4px" id="dive-result-score">Coins collected: 0</div>
+<div style="color:#4ecdc4;font-size:clamp(14px,3.5vw,18px);margin-bottom:16px" id="dive-result-depth">Deepest: 0m</div>
+<button class="btn" onclick="endDiveGame()" style="margin-bottom:8px">⬅️ Back to Cove</button>
+</div>
+</div>
+
+<!-- ===== SHIP WHEEL SPIN SCREEN ===== -->
+<div class="screen underwater" id="wheel-game-screen" style="padding:20px">
+<div class="section-title" style="margin-bottom:16px">🎡 Ship Wheel Spin</div>
+<div style="position:relative;width:clamp(200px,60vw,300px);height:clamp(200px,60vw,300px);margin:0 auto 16px">
+<canvas id="wheel-canvas" width="320" height="320" style="width:100%;height:100%"></canvas>
+<div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:36px;pointer-events:none">🔻</div>
+</div>
+<div id="wheel-result" style="text-align:center;min-height:40px;color:#ffd700;font-size:clamp(16px,4vw,22px);font-weight:bold;margin-bottom:8px"></div>
+<button class="btn" id="wheel-spin-btn" onclick="spinWheel()" style="margin-bottom:8px">🎡 Spin! (30 🪙)</button>
+<button class="btn btn-blue" onclick="endWheelGame()">⬅️ Back to Cove</button>
 </div>
 
 <!-- ===== GALLERY SCREEN ===== -->
@@ -2027,6 +2064,497 @@ showShipSelect();
 }
 
 // ===== GALLERY =====
+
+// ===== ARCADE (TREASURE COVE) =====
+const ARCADE_GAMES=[
+{id:'dive',name:'Treasure Dive',icon:'🏊',desc:'Dive deep and collect treasure!',cost:50,color:'#FF6B35'},
+{id:'wheel',name:'Ship Wheel Spin',icon:'🎡',desc:'Spin the wheel for prizes!',cost:30,color:'#F7931E'}
+];
+
+function showArcade(){
+Audio.click();
+document.getElementById('hud').classList.add('hidden');
+const grid=document.getElementById('arcade-grid');
+grid.innerHTML='';
+ARCADE_GAMES.forEach(g=>{
+const canAfford=Progress.coins>=g.cost;
+const card=document.createElement('div');
+card.className='subject-card';
+card.style.opacity=canAfford?'1':'0.5';
+card.style.cursor=canAfford?'pointer':'not-allowed';
+card.style.borderLeft='4px solid '+g.color;
+card.innerHTML=`
+<div style="font-size:36px;margin-bottom:4px">${g.icon}</div>
+<div style="font-size:clamp(16px,4vw,20px);color:#fff;font-weight:bold">${g.name}</div>
+<div style="font-size:clamp(11px,2.5vw,13px);color:#4ecdc4;margin:4px 0">${g.desc}</div>
+<div style="font-size:clamp(14px,3.5vw,18px);color:#ffd700;font-weight:bold">${canAfford?'Cost: '+g.cost+' \u{1FA99}':'Need '+g.cost+' \u{1FA99}'}</div>
+`;
+if(canAfford){
+card.onclick=()=>{Audio.click();startArcadeGame(g)};
+}else{
+card.onclick=()=>{Audio.wrong()};
+}
+grid.appendChild(card);
+});
+showScreen('arcade-screen');
+}
+
+function startArcadeGame(g){
+if(Progress.coins<g.cost){Audio.wrong();return}
+Progress.coins-=g.cost;
+Progress.save();
+updateHUD();
+Audio.reward();
+if(g.id==='dive'){startDiveGame()}
+else if(g.id==='wheel'){startWheelGame()}
+}
+
+// ===== TREASURE DIVE GAME =====
+let diveGame=null;
+
+function startDiveGame(){
+showScreen('dive-game-screen');
+document.getElementById('dive-game-over').style.display='none';
+const canvas=document.getElementById('dive-canvas');
+const ctx=canvas.getContext('2d');
+canvas.width=canvas.offsetWidth||window.innerWidth;
+canvas.height=canvas.offsetHeight||window.innerHeight;
+
+const W=canvas.width,H=canvas.height;
+diveGame={
+ctx:ctx,W:W,H:H,
+player:{x:W/2,y:80,vy:0,radius:18,flipper:0},
+obstacles:[],coins:[],gems:[],bubbles:[],
+score:0,depth:0,maxDepth:0,
+spawnTimer:0,coinTimer:0,bubbleTimer:0,
+gameOver:false,frame:0,
+touchY:null
+};
+
+// Touch controls: tap left/right half of screen to steer
+canvas.ontouchstart=(e)=>{
+e.preventDefault();
+const rect=canvas.getBoundingClientRect();
+const touch=e.touches[0];
+const x=touch.clientX-rect.left;
+diveGame.player.targetX=x;
+};
+canvas.ontouchmove=(e)=>{
+e.preventDefault();
+const rect=canvas.getBoundingClientRect();
+const touch=e.touches[0];
+diveGame.player.targetX=touch.clientX-rect.left;
+};
+canvas.ontouchend=(e)=>{e.preventDefault()};
+// Mouse for testing
+canvas.onmousedown=(e)=>{
+const rect=canvas.getBoundingClientRect();
+diveGame.player.targetX=e.clientX-rect.left;
+};
+canvas.onmousemove=(e)=>{
+if(diveGame&&diveGame.player.targetX!=null){
+const rect=canvas.getBoundingClientRect();
+diveGame.player.targetX=e.clientX-rect.left;
+}
+};
+
+diveGameLoop();
+}
+
+function diveGameLoop(){
+const g=diveGame;
+if(!g||g.gameOver)return;
+g.frame++;
+
+// Player sinks
+g.player.vy+=0.08;
+g.player.vy=Math.min(g.player.vy,4);
+g.player.y+=g.player.vy;
+
+// Horizontal movement toward target
+if(g.player.targetX!=null){
+const dx=g.player.targetX-g.player.x;
+g.player.x+=dx*0.12;
+g.player.x=Math.max(g.player.radius,Math.min(g.W-g.player.radius,g.player.x));
+}
+
+g.depth=Math.floor(g.frame*0.3);
+if(g.depth>g.maxDepth)g.maxDepth=g.depth;
+
+// Spawn obstacles (rocks, seaweed)
+g.spawnTimer++;
+if(g.spawnTimer>50+Math.random()*40){
+g.spawnTimer=0;
+const types=['rock','seaweed','jellyfish'];
+const type=types[Math.floor(Math.random()*types.length)];
+g.obstacles.push({
+x:30+Math.random()*(g.W-60),
+y:g.H+20,
+type:type,
+radius:type==='seaweed'?15:22,
+wobble:Math.random()*Math.PI*2
+});
+}
+
+// Spawn coins
+g.coinTimer++;
+if(g.coinTimer>30+Math.random()*25){
+g.coinTimer=0;
+const isGem=Math.random()<0.12;
+const arr=isGem?g.gems:g.coins;
+arr.push({
+x:30+Math.random()*(g.W-60),
+y:g.H+20,
+radius:isGem?12:10,
+spin:0
+});
+}
+
+// Spawn bubbles (decorative)
+g.bubbleTimer++;
+if(g.bubbleTimer>8){
+g.bubbleTimer=0;
+g.bubbles.push({
+x:Math.random()*g.W,
+y:g.H+10,
+radius:3+Math.random()*5,
+speed:1+Math.random()*2
+});
+}
+
+// Move and collide
+const pr=g.player.radius;
+
+g.obstacles=g.obstacles.filter(o=>{
+o.y-=g.player.vy+1;
+o.wobble+=0.05;
+if(o.type==='jellyfish')o.x+=Math.sin(o.wobble)*1.5;
+const dx=o.x-g.player.x,dy=o.y-g.player.y;
+if(Math.sqrt(dx*dx+dy*dy)<pr+o.radius-4){
+// Hit obstacle
+diveGameOver();
+return false;
+}
+return o.y>-40;
+});
+
+g.coins=g.coins.filter(c=>{
+c.y-=g.player.vy+1;
+c.spin+=0.1;
+const dx=c.x-g.player.x,dy=c.y-g.player.y;
+if(Math.sqrt(dx*dx+dy*dy)<pr+c.radius){
+g.score+=1;
+Audio.playTone(800+g.score*20,0.06,'square',0.08);
+return false;
+}
+return c.y>-40;
+});
+
+g.gems=g.gems.filter(c=>{
+c.y-=g.player.vy+1;
+c.spin+=0.08;
+const dx=c.x-g.player.x,dy=c.y-g.player.y;
+if(Math.sqrt(dx*dx+dy*dy)<pr+c.radius){
+g.score+=5;
+Audio.reward();
+return false;
+}
+return c.y>-40;
+});
+
+g.bubbles=g.bubbles.filter(b=>{
+b.y-=b.speed;
+return b.y>-10;
+});
+
+// Player off top = game over (surfaced)
+if(g.player.y<g.player.radius-10){
+diveGameOver();
+}
+
+// Draw
+diveDraw(g);
+document.getElementById('dive-score').textContent=g.score;
+document.getElementById('dive-depth').textContent=g.maxDepth;
+
+requestAnimationFrame(diveGameLoop);
+}
+
+function diveDraw(g){
+const ctx=g.ctx;
+// Background gradient (gets darker with depth)
+const depthFactor=Math.min(g.depth/500,1);
+ctx.fillStyle='rgb('+Math.floor(0+depthFactor*0)+','+Math.floor(20-depthFactor*10)+','+Math.floor(50-depthFactor*30)+')';
+ctx.fillRect(0,0,g.W,g.H);
+
+// Light rays
+ctx.globalAlpha=0.06;
+ctx.fillStyle='#4ecdc4';
+for(let i=0;i<3;i++){
+ctx.beginPath();
+const rx=(g.frame*0.5+i*200)%g.W;
+ctx.moveTo(rx,0);ctx.lineTo(rx+40,0);ctx.lineTo(rx+80,g.H);ctx.lineTo(rx+40,g.H);
+ctx.fill();
+}
+ctx.globalAlpha=1;
+
+// Bubbles
+g.bubbles.forEach(b=>{
+ctx.globalAlpha=0.3;
+ctx.strokeStyle='#4ecdc4';
+ctx.lineWidth=1.5;
+ctx.beginPath();ctx.arc(b.x,b.y,b.radius,0,Math.PI*2);ctx.stroke();
+});
+ctx.globalAlpha=1;
+
+// Obstacles
+g.obstacles.forEach(o=>{
+if(o.type==='rock'){
+ctx.fillStyle='#4a3728';
+ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#3a2a1e';
+ctx.beginPath();ctx.arc(o.x-o.radius*0.3,o.y+o.radius*0.3,o.radius*0.6,0,Math.PI*2);ctx.fill();
+}else if(o.type==='seaweed'){
+ctx.fillStyle='#2d8659';
+ctx.strokeStyle='#2d8659';ctx.lineWidth=5;
+ctx.beginPath();ctx.moveTo(o.x,o.y+20);
+for(let i=0;i<3;i++){
+ctx.quadraticCurveTo(o.x+Math.sin(o.wobble+i)*8,o.y-i*12,o.x,o.y-(i+1)*12);
+}
+ctx.stroke();
+}else if(o.type==='jellyfish'){
+ctx.fillStyle='rgba(255,107,53,0.7)';
+ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.fill();
+ctx.strokeStyle='rgba(255,107,53,0.5)';ctx.lineWidth=2;
+for(let i=-2;i<=2;i++){
+ctx.beginPath();ctx.moveTo(o.x+i*5,o.y+o.radius*0.8);
+ctx.quadraticCurveTo(o.x+i*5+Math.sin(o.wobble+i)*6,o.y+15,o.x+i*5,o.y+25);
+ctx.stroke();
+}
+}
+});
+
+// Coins
+g.coins.forEach(c=>{
+const sx=Math.abs(Math.cos(c.spin))*c.radius;
+ctx.fillStyle='#ffd700';
+ctx.beginPath();ctx.ellipse(c.x,c.y,sx+2,c.radius,0,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#ffcc00';
+ctx.beginPath();ctx.ellipse(c.x,c.y,sx*0.6,c.radius*0.6,0,0,Math.PI*2);ctx.fill();
+});
+
+// Gems
+g.gems.forEach(c=>{
+const sx=Math.abs(Math.cos(c.spin));
+ctx.fillStyle='#FF6B35';
+ctx.beginPath();
+ctx.moveTo(c.x,c.y-c.radius);
+ctx.lineTo(c.x+c.radius*sx,c.y);
+ctx.lineTo(c.x,c.y+c.radius);
+ctx.lineTo(c.x-c.radius*sx,c.y);
+ctx.closePath();ctx.fill();
+ctx.fillStyle='#FFD700';
+ctx.beginPath();
+ctx.moveTo(c.x,c.y-c.radius*0.5);
+ctx.lineTo(c.x+c.radius*sx*0.5,c.y);
+ctx.lineTo(c.x,c.y+c.radius*0.5);
+ctx.lineTo(c.x-c.radius*sx*0.5,c.y);
+ctx.closePath();ctx.fill();
+});
+
+// Player (diver)
+ctx.save();
+ctx.translate(g.player.x,g.player.y);
+// Body
+ctx.fillStyle='#4ecdc4';
+ctx.beginPath();ctx.arc(0,0,pr,0,Math.PI*2);ctx.fill();
+// Helmet
+ctx.fillStyle='#001a33';
+ctx.beginPath();ctx.arc(0,-4,pr-4,0,Math.PI*2);ctx.fill();
+// Visor
+ctx.fillStyle='#4ecdc4';
+ctx.beginPath();ctx.arc(2,-4,pr-7,0,Math.PI*2);ctx.fill();
+// Flipper wiggle
+const fw=Math.sin(g.frame*0.3)*8;
+ctx.fillStyle='#FF6B35';
+ctx.beginPath();ctx.ellipse(-6,pr+2,8,4,fw*0.05,0,Math.PI*2);ctx.fill();
+ctx.beginPath();ctx.ellipse(6,pr+2,8,4,-fw*0.05,0,Math.PI*2);ctx.fill();
+ctx.restore();
+
+// Tap hint (first 90 frames)
+if(g.frame<90){
+ctx.globalAlpha=0.7*(1-g.frame/90);
+ctx.fillStyle='#fff';
+ctx.font='16px sans-serif';
+ctx.textAlign='center';
+ctx.fillText('Tap to steer! Avoid rocks!',g.W/2,g.H/2);
+ctx.globalAlpha=1;
+}
+}
+
+function diveGameOver(){
+if(!diveGame)return;
+diveGame.gameOver=true;
+// Award coins (score = coins earned back)
+Progress.addCoins(diveGame.score);
+Audio.wrong();
+setTimeout(()=>{
+const el=document.getElementById('dive-game-over');
+el.style.display='flex';
+document.getElementById('dive-result-emoji').textContent=diveGame.score>15?'🎉':'🏊';
+document.getElementById('dive-result-title').textContent='Dive Complete!';
+document.getElementById('dive-result-score').textContent='Coins collected: '+diveGame.score+' \u{1FA99}';
+document.getElementById('dive-result-depth').textContent='Deepest: '+diveGame.maxDepth+'m';
+},300);
+}
+
+function endDiveGame(){
+if(diveGame){diveGame.gameOver=true;diveGame=null}
+const canvas=document.getElementById('dive-canvas');
+canvas.ontouchstart=null;canvas.ontouchmove=null;canvas.ontouchend=null;
+canvas.onmousedown=null;canvas.onmousemove=null;
+showArcade();
+}
+
+// ===== SHIP WHEEL SPIN =====
+let wheelGame=null;
+
+const WHEEL_PRIZES=[
+{label:'+5 \u{1FA99}',icon:'\u{1FA99}',value:5,color:'#FFD700'},
+{label:'+10 \u{1FA99}',icon:'\u{1FA99}',value:10,color:'#FF6B35'},
+{label:'Bubbles!',icon:'🫧',value:0,color:'#4ecdc4'},
+{label:'+3 \u{1FA99}',icon:'\u{1FA99}',value:3,color:'#006994'},
+{label:'+15 \u{1FA99}',icon:'\u{1FA99}',value:15,color:'#FF6B35'},
+{label:'Try Again',icon:'😅',value:0,color:'#003459'},
+{label:'+8 \u{1FA99}',icon:'\u{1FA99}',value:8,color:'#FFD700'},
+{label:'Lucky! +20',icon:'⭐',value:20,color:'#FF6B35'}
+];
+
+function startWheelGame(){
+showScreen('wheel-game-screen');
+document.getElementById('wheel-result').textContent='';
+document.getElementById('wheel-spin-btn').textContent='🎡 Spin! (30 \u{1FA99})';
+document.getElementById('wheel-spin-btn').disabled=false;
+document.getElementById('wheel-spin-btn').style.opacity=1;
+drawWheel(0);
+}
+
+let wheelRotation=0;
+let wheelSpinning=false;
+
+function drawWheel(rotation){
+const canvas=document.getElementById('wheel-canvas');
+if(!canvas)return;
+const ctx=canvas.getContext('2d');
+const cx=160,cy=160,outerR=155,innerR=30;
+const n=WHEEL_PRIZES.length;
+const slice=(Math.PI*2)/n;
+
+ctx.clearRect(0,0,320,320);
+
+// Outer ring
+ctx.fillStyle='#001a33';
+ctx.beginPath();ctx.arc(cx,cy,outerR+8,0,Math.PI*2);ctx.fill();
+
+for(let i=0;i<n;i++){
+const start=rotation+i*slice-slice/2;
+const end=start+slice;
+const prize=WHEEL_PRIZES[i];
+
+// Slice
+ctx.beginPath();
+ctx.moveTo(cx,cy);
+ctx.arc(cx,cy,outerR,start,end);
+ctx.closePath();
+ctx.fillStyle=prize.color;
+ctx.fill();
+ctx.strokeStyle='#001a33';ctx.lineWidth=3;
+ctx.stroke();
+
+// Icon
+const midAngle=start+slice/2;
+const tx=cx+Math.cos(midAngle)*outerR*0.65;
+const ty=cy+Math.sin(midAngle)*outerR*0.65;
+ctx.save();
+ctx.translate(tx,ty);
+ctx.rotate(midAngle+Math.PI/2);
+ctx.fillStyle='#fff';
+ctx.font='bold 22px sans-serif';
+ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText(prize.icon,0,0);
+ctx.font='bold 10px sans-serif';
+ctx.fillText(prize.label,0,18);
+ctx.restore();
+}
+
+// Center hub
+ctx.fillStyle='#001a33';
+ctx.beginPath();ctx.arc(cx,cy,innerR,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#FFD700';
+ctx.beginPath();ctx.arc(cx,cy,innerR-5,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#001a33';
+ctx.font='bold 16px sans-serif';
+ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText('🎡',cx,cy);
+}
+
+function spinWheel(){
+if(wheelSpinning)return;
+wheelSpinning=true;
+document.getElementById('wheel-spin-btn').disabled=true;
+document.getElementById('wheel-spin-btn').style.opacity=0.5;
+document.getElementById('wheel-result').textContent='Spinning...';
+
+const n=WHEEL_PRIZES.length;
+const targetIdx=Math.floor(Math.random()*n);
+const slice=(Math.PI*2)/n;
+// Target angle so the pointer (top) lands on targetIdx
+// Pointer is at angle -PI/2 (top). We want targetIdx slice center at -PI/2.
+// Slice i center is at rotation+i*slice. We want that = -PI/2 + 2*PI*k
+const fullSpins=5+Math.floor(Math.random()*3);
+const targetRotation=fullSpins*Math.PI*2+(-Math.PI/2-targetIdx*slice);
+const startRotation=wheelRotation;
+const totalDelta=targetRotation-startRotation;
+const duration=3500;
+const startTime=performance.now();
+
+function animate(now){
+const elapsed=now-startTime;
+const t=Math.min(elapsed/duration,1);
+// Ease out cubic
+const eased=1-Math.pow(1-t,3);
+wheelRotation=startRotation+totalDelta*eased;
+drawWheel(wheelRotation);
+if(t<1){
+requestAnimationFrame(animate);
+}else{
+wheelSpinning=false;
+const prize=WHEEL_PRIZES[targetIdx];
+if(prize.value>0){
+Progress.addCoins(prize.value);
+document.getElementById('wheel-result').textContent='🎉 You won '+prize.label+'!';
+Audio.correct();
+}else{
+document.getElementById('wheel-result').textContent=prize.icon+' '+prize.label;
+Audio.wrong();
+}
+document.getElementById('wheel-spin-btn').disabled=false;
+document.getElementById('wheel-spin-btn').style.opacity=1;
+// Update button text to reflect new balance
+const canAfford=Progress.coins>=30;
+document.getElementById('wheel-spin-btn').textContent=canAfford?'🎡 Spin Again! (30 \u{1FA99})':'Need 30 \u{1FA99}';
+document.getElementById('wheel-spin-btn').disabled=!canAfford;
+document.getElementById('wheel-spin-btn').style.opacity=canAfford?1:0.5;
+}
+}
+requestAnimationFrame(animate);
+}
+
+function endWheelGame(){
+wheelSpinning=false;
+showArcade();
+}
+
 function showGallery(){
 Audio.click();
 Audio.setPageTrack('gallery');
