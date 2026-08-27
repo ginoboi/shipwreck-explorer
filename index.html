@@ -807,7 +807,7 @@ galleryPhotos:[
 ],
 history:'The Yamato was the pride of the Imperial Japanese Navy and the largest battleship ever built. It was 263 meters long and had nine 18.1-inch guns, the biggest ever mounted on a warship. The Yamato was launched in 1940 and joined the Japanese fleet in 1941. For most of World War II, the Yamato stayed near Japan because it was so valuable. In April 1945, the Japanese sent the Yamato on a desperate mission to Okinawa called Operation Ten-Go. American aircraft attacked with bombs and torpedoes. The Yamato exploded and sank on April 7, 1945. Only 269 of the 3,332 sailors survived. The wreck was found in 1982, 350 meters underwater, broken in two pieces.'},
 
-{id:7,name:'Costa Concordia',photo:'images/costa_before.jpg',emoji:'⛴️',depth:'Giglio Island, Italy, 2012',desc:'A modern cruise ship that ran aground',trivia:['Ran aground on January 13, 2012','Hit rocks near Giglio Island, Italy','Carried over 4,200 people onboard','32 people sadly lost their lives','Took 2 years and a huge crane operation to lift it back up!'],rarity:'LEGENDARY',unlockCost:180,
+{id:7,name:'Costa Concordia',photo:'images/costa_before.jpg',emoji:'⛴️',depth:'Giglio Island, Italy, 2012',desc:'A modern cruise ship that ran aground',trivia:['Ran aground on January 13, 2012','Hit rocks near Giglio Island, Italy','Carried over 4,200 people onboard','32 people sadly lost their lives','Took 2 years and a huge crane operation to lift it back up!'],rarity:'LEGENDARY',unlockCost:0,
 galleryPhotos:[
 {src:'images/costa_before.jpg',caption:'The Costa Concordia sailing before the accident'},
 {src:'images/costa_aground.jpg',caption:'The ship tipped on its side near Giglio Island'},
@@ -1263,8 +1263,8 @@ const subjects=Progress.shipProgress[ship.id]||{};
 const doneCount=(subjects.math?1:0)+(subjects.english?1:0)+(subjects.filipino?1:0)+(subjects.civics?1:0)+(subjects.religion?1:0);
 card.innerHTML=`
 ${unlocked||canUnlock?`<img class="ship-photo" src="${ship.photo}" alt="${ship.name}" onerror="this.style.display='none'">`:'<div class="ship-emoji">🔒</div>'}
-<div class="ship-name">${unlocked?ship.name:'???'}</div>
-<div class="ship-sub">${unlocked?ship.desc:'Need '+ship.unlockCost+' 🪙'}</div>
+<div class="ship-name">${unlocked||canUnlock?ship.name:'???'}</div>
+<div class="ship-sub">${unlocked?ship.desc:(ship.unlockCost===0?'Tap to unlock!':'Need '+ship.unlockCost+' \u{1FA99}')}</div>
 ${unlocked?`<div class="ship-progress">${doneCount}/5 ⭐</div>`:''}
 ${unlocked?`<div class="difficulty-badge">${completed?'✅ Complete':'Ready to explore'}</div>`:''}
 `;
