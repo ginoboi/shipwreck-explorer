@@ -303,6 +303,7 @@ img.emoji{height:1em;width:1em;margin:0 .05em;vertical-align:-0.1em;object-fit:c
 <div class="game-title" id="game-title"></div>
 <div class="game-subtitle" id="game-subtitle"></div>
 <button class="btn" onclick="startGame()" id="dive-btn"></button>
+<button class="btn" style="background:linear-gradient(135deg,#B8860B,#FFD700);color:#001a33;font-weight:bold" onclick="showAcademy()" id="academy-btn">⚓ Warship Academy</button>
 <button class="btn btn-blue" onclick="showGallery()" id="gallery-btn"></button>
 <button class="btn" style="background:linear-gradient(135deg,#FF6B35,#F7931E);color:#fff" onclick="showArcade()" id="arcade-btn">🎮 Treasure Cove</button>
 <div class="tap-hint" id="tap-hint"></div>
@@ -2804,6 +2805,7 @@ if(input.value === RESET_PASSCODE){
 localStorage.removeItem(THEME.storagePrefix+'_progress');
 localStorage.removeItem(THEME.storagePrefix+'_difficulty');
 localStorage.removeItem(THEME.storagePrefix+'_music');
+localStorage.removeItem('se_academy_v1');
 Progress.coins = 0;
 Progress.shipProgress = {};
 Progress.unlockedShips = [0];
@@ -2890,6 +2892,7 @@ function installApp(){
   }
 }
 </script>
+<script src="quizzes.js"></script>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').then(function(reg){

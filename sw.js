@@ -1,7 +1,8 @@
-const CACHE_NAME = 'shipwreck-explorer-v6';
+const CACHE_NAME = 'shipwreck-explorer-v7';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './quizzes.js',
   './manifest.json',
   './images/app_icon.png',
   './images/alec_avatar.png',
