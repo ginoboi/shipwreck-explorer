@@ -299,6 +299,10 @@ var DECKS=[
   }
 ];
 
+// ---------- completion helpers (for Sub Patrol unlock) ----------
+window.academyMathComplete=function(){return['q11','q12','q13','q14','q15'].every(function(id){return getDeckProgress(id).done})};
+window.academyEnglishComplete=function(){return['e1','e2','e3','e4','e5','e6','e7'].every(function(id){return getDeckProgress(id).done})};
+
 // ---------- storage ----------
 var STORE_KEY='se_academy_v1';
 function loadProgress(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}catch(e){return{}}}

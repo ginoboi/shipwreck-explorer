@@ -209,6 +209,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .ship-photo{width:100%;height:120px;object-fit:cover;border-radius:12px;margin-bottom:8px;background:#003459}
 .ship-photo-card{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:8px;background:#003459}
 .gallery-photo{width:100%;height:90px;object-fit:cover;border-radius:10px;margin-bottom:6px;background:#003459}
+.patrol-banner{position:absolute;top:18%;left:50%;transform:translate(-50%,-16px);background:rgba(0,26,51,0.92);border:3px solid #ffd700;border-radius:14px;padding:10px 22px;color:#ffd700;font-size:clamp(15px,4vw,20px);font-weight:bold;z-index:8;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap}
+.patrol-banner.show{opacity:1;transform:translate(-50%,0)}
 .reward-photo{width:100%;max-height:200px;object-fit:cover;border-radius:12px;margin-bottom:10px;background:#003459}
 .ship-detail-photo{width:100%;max-height:250px;object-fit:cover;border-radius:12px;margin-bottom:12px;background:#003459}
 
@@ -367,6 +369,39 @@ img.emoji{height:1em;width:1em;margin:0 .05em;vertical-align:-0.1em;object-fit:c
 <div id="wheel-result" style="text-align:center;min-height:40px;color:#ffd700;font-size:clamp(16px,4vw,22px);font-weight:bold;margin-bottom:8px"></div>
 <button class="btn" id="wheel-spin-btn" onclick="spinWheel()" style="margin-bottom:8px">🎡 Spin! (30 🪙)</button>
 <button class="btn btn-blue" onclick="endWheelGame()">⬅️ Back to Cove</button>
+</div>
+
+<!-- ===== SUB PATROL GAME SCREEN ===== -->
+<div class="screen deepwater" id="patrol-game-screen" style="overflow:hidden;position:relative;padding:0">
+<canvas id="patrol-canvas" style="position:absolute;inset:0;width:100%;height:100%;touch-action:none"></canvas>
+<div style="position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:center;z-index:5;pointer-events:none">
+<div style="background:rgba(0,26,51,0.8);border-radius:8px;padding:4px 10px;color:#ff5a5a;font-size:clamp(16px,4vw,22px);font-weight:bold" id="patrol-hearts">❤️❤️❤️</div>
+<div style="display:flex;gap:8px">
+<div style="background:rgba(0,26,51,0.8);border-radius:8px;padding:4px 10px;color:#4ecdc4;font-size:clamp(14px,3.5vw,18px);font-weight:bold">🌊 <span id="patrol-depth">0</span>m</div>
+<div style="background:rgba(0,26,51,0.8);border-radius:8px;padding:4px 10px;color:#ffd700;font-size:clamp(14px,3.5vw,18px);font-weight:bold">🪙 <span id="patrol-coin">0</span></div>
+</div>
+</div>
+<button class="btn btn-blue" onclick="patrolQuit()" style="position:absolute;bottom:12px;left:12px;z-index:6;padding:8px 14px;font-size:14px">⬅️ Back</button>
+<div id="patrol-banner" class="patrol-banner"></div>
+<div id="patrol-start" style="position:absolute;inset:0;background:rgba(0,10,20,0.72);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;padding:20px;text-align:center">
+<div style="font-size:clamp(56px,16vw,90px);line-height:1">🚢</div>
+<div style="font-size:clamp(30px,9vw,48px);color:#ffd700;font-weight:bold;text-shadow:0 3px 8px rgba(0,0,0,0.6);margin:4px 0">SUB PATROL</div>
+<div style="color:#7ee8d4;font-size:clamp(15px,4vw,19px);margin-bottom:10px">Defend the deep! Fire torpedoes at mines,<br>blast treasure crates, collect pearls!</div>
+<div style="color:#fff;font-size:clamp(13px,3.5vw,16px);margin-bottom:6px">👆 <b>Tap</b> = fire torpedo</div>
+<div style="color:#fff;font-size:clamp(13px,3.5vw,16px);margin-bottom:14px">↕️ <b>Hold &amp; drag</b> = steer the sub</div>
+<div id="patrol-best" style="color:#4ecdc4;font-size:clamp(13px,3.5vw,16px);font-weight:bold;margin-bottom:8px"></div>
+<div id="patrol-goldnote" style="display:none;color:#ffd700;font-size:clamp(13px,3.5vw,16px);margin-bottom:8px">✨ Golden Sub unlocked! English champion! ✨</div>
+<button class="btn" style="background:linear-gradient(135deg,#FFD700,#F7931E);color:#001a33;font-size:clamp(18px,5vw,24px);padding:14px 40px" onclick="patrolStartRun()">▶️ START DIVE</button>
+</div>
+<div id="patrol-game-over" style="position:absolute;inset:0;background:rgba(0,0,0,0.7);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;padding:20px;text-align:center">
+<div style="font-size:clamp(40px,12vw,64px);margin-bottom:8px" id="patrol-result-emoji">🚢</div>
+<div style="color:#ffd700;font-size:clamp(20px,5vw,28px);font-weight:bold;margin-bottom:4px" id="patrol-result-title">Dive Complete!</div>
+<div style="color:#fff;font-size:clamp(14px,3.5vw,18px);margin-bottom:4px" id="patrol-result-score">Coins collected: 0</div>
+<div style="color:#4ecdc4;font-size:clamp(14px,3.5vw,18px);margin-bottom:16px" id="patrol-result-depth">Depth reached: 0m</div>
+<div style="color:#4ecdc4;font-size:clamp(12px,3vw,14px);margin-bottom:14px">🪙 Coins saved to your treasure!</div>
+<button class="btn" onclick="patrolRetry()" style="margin-bottom:8px">🔁 Dive Again</button>
+<button class="btn btn-blue" onclick="patrolQuit()">⬅️ Back to Cove</button>
+</div>
 </div>
 
 <!-- ===== GALLERY SCREEN ===== -->
@@ -2077,6 +2112,23 @@ Audio.click();
 document.getElementById('hud').classList.add('hidden');
 const grid=document.getElementById('arcade-grid');
 grid.innerHTML='';
+// Sub Patrol: flagship reward game, unlocks when all 5 math decks are done
+(function(){
+const unlocked=!!(window.academyMathComplete&&window.academyMathComplete());
+const card=document.createElement('div');
+card.className='subject-card';
+card.style.borderLeft='4px solid #FFD700';
+card.style.opacity=unlocked?'1':'0.55';
+card.style.cursor=unlocked?'pointer':'not-allowed';
+card.innerHTML=`
+<div style="font-size:36px;margin-bottom:4px">🚢</div>
+<div style="font-size:clamp(16px,4vw,20px);color:#fff;font-weight:bold">Sub Patrol</div>
+<div style="font-size:clamp(11px,2.5vw,13px);color:#4ecdc4;margin:4px 0">${unlocked?'Steer the sub, blast mines, grab treasure!':'🔒 Finish ALL 5 Math decks to unlock!'}</div>
+<div style="font-size:clamp(14px,3.5vw,18px);color:${unlocked?'#ffd700':'#8899aa'};font-weight:bold">${unlocked?'FREE to play!':'Locked'}</div>
+`;
+card.onclick=()=>{if(unlocked){Audio.click();startSubPatrol()}else{Audio.wrong()}};
+grid.appendChild(card);
+})();
 ARCADE_GAMES.forEach(g=>{
 const canAfford=Progress.coins>=g.cost;
 const card=document.createElement('div');
@@ -2893,6 +2945,7 @@ function installApp(){
 }
 </script>
 <script src="quizzes.js"></script>
+<script src="subpatrol.js"></script>
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').then(function(reg){
