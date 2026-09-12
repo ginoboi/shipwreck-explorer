@@ -314,6 +314,7 @@ var CSS='<style>'+
 '.academy-deck{background:rgba(0,26,51,0.85);border:2px solid #4ecdc4;border-radius:14px;padding:12px 14px;cursor:pointer;transition:transform .12s;display:flex;align-items:center;gap:12px;text-align:left}'+
 '.academy-deck:active{transform:scale(0.97)}'+
 '.academy-deck.done{border-color:#ffd700}'+
+'.academy-deck.locked{opacity:.55;border-color:#5a7a8a}'+
 '.academy-deck-icon{font-size:34px}'+
 '.academy-deck-name{font-size:clamp(15px,4vw,19px);color:#fff;font-weight:bold}'+
 '.academy-deck-info{font-size:clamp(11px,3vw,13px);color:#4ecdc4;margin-top:2px}'+
@@ -384,14 +385,16 @@ function renderAcademyHome(){
   DECKS.forEach(function(deck){
     var p=getDeckProgress(deck.id);
     var done=p.done;
-    var scoreTxt=done?('&#11088; '+p.best+'/'+p.total):('New!');
-    html+='<div class="academy-deck'+(done?' done':'')+'" onclick="startAcademyDeck(\''+deck.id+'\')">';
-    html+='<div class="academy-deck-icon">'+deck.icon+'</div>';
-    html+='<div><div class="academy-deck-name">'+deck.title+'</div><div class="academy-deck-info">'+deck.subtitle+' &#8226; '+deck.questions.length+' questions</div></div>';
+    var lock=deckLockState(deck);
+    var scoreTxt=done?('&#11088; '+p.best+'/'+p.total):(lock.locked?'&#128274; Locked':'New!');
+    html+='<div class="academy-deck'+(done?' done':'')+(lock.locked?' locked':'')+'"'+(lock.locked?'':' onclick="startAcademyDeck(\''+deck.id+'\')"')+'>';
+    html+='<div class="academy-deck-icon">'+(lock.locked?'&#128274;':deck.icon)+'</div>';
+    html+='<div><div class="academy-deck-name">'+deck.title+'</div><div class="academy-deck-info">'+(lock.locked?('Finish '+lock.needTitle+' to unlock'):deck.subtitle+' &#8226; '+deck.questions.length+' questions')+'</div></div>';
     html+='<div class="academy-deck-score">'+scoreTxt+'</div>';
     html+='</div>';
   });
   html+='</div>';
+  html+='<div class="aq-feedback" id="academy-lock-hint" style="min-height:20px"></div>';
   html+='<div style="text-align:center;margin-top:10px"><button class="btn btn-blue" onclick="openParentReport()" style="opacity:.7;font-size:14px">📊 Parent Report</button></div>';
   html+='<button class="btn btn-blue" onclick="showTitle()" style="margin-top:8px">&#11067; Back</button>';
   inner.innerHTML=html;
@@ -402,11 +405,29 @@ function renderAcademyHome(){
 var RUN=null;
 var firstTryOK=true;
 
+// progressive unlock: English review decks unlock in order, each needs the previous one completed
+var ENGLISH_ORDER=['e1','e2','e3','e4','e5','e6','e7'];
+function deckLockState(deck){
+  var idx=ENGLISH_ORDER.indexOf(deck.id);
+  if(idx<=0)return{locked:false,needTitle:''};
+  var prev=ENGLISH_ORDER[idx-1];
+  var prevDeck=null;
+  for(var i=0;i<DECKS.length;i++){if(DECKS[i].id===prev){prevDeck=DECKS[i];break}}
+  return{locked:!getDeckProgress(prev).done,needTitle:prevDeck?prevDeck.title:''};
+}
+
 window.startAcademyDeck=function(deckId){
   Audio.click();
   var deck=null;
   for(var i=0;i<DECKS.length;i++){if(DECKS[i].id===deckId){deck=DECKS[i];break}}
   if(!deck)return;
+  var lock=deckLockState(deck);
+  if(lock.locked){
+    Audio.wrong();
+    var fb=document.getElementById('academy-lock-hint');
+    if(fb){fb.textContent='\u{1F512} Finish '+lock.needTitle+' first!';setTimeout(function(){fb.textContent=''},1800)}
+    return;
+  }
   RUN={deck:deck,index:0,firstTryCorrect:0,answeredCorrect:0,wrongThisQ:[],loggedThisQ:false};
   firstTryOK=true;
   renderQuestion();
