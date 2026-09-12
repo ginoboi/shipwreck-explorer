@@ -112,7 +112,8 @@ var DECKS=[
       numQ('There are 9 girls. 5 are wearing glasses.<br>How many are NOT wearing glasses?',4),
       numQ('There are 10 students. 7 are girls.<br>How many are boys?',3),
       numQ('Complete the number bond for 7.<br><span class="aq-emoji">✈️✈️ + ✈️✈️✈️✈️✈️</span><br>2 blue airplanes and some orange airplanes make 7.<br>How many orange airplanes are there?',5),
-      numQ('Complete the number bond for 7.<br><span class="aq-emoji">🌼 + 🌺🌺🌺🌺🌺🌺</span><br>1 white flower and some red flowers make 7.<br>How many red flowers are there?',6)
+      numQ('Complete the number bond for 7.<br><span class="aq-emoji">🌼 + 🌺🌺🌺🌺🌺🌺</span><br>1 white flower and some red flowers make 7.<br>How many red flowers are there?',6),
+      numQ('Complete the number bond for 9.<br><span class="aq-emoji">🍐🍐🍐🍐🍐 + 🍐🍐🍐🍐</span><br>5 pears and some more pears make 9.<br>How many more pears are there?',4)
     ]
   },
   {
