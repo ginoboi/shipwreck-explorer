@@ -61,7 +61,10 @@ var DECKS=[
       mcQ('Count and compare the two groups.<br><span class="aq-emoji">🐠🐠🐠🐠🐠</span> = Group H<br><span class="aq-emoji">🐠🐠</span> = Group I<br>Group H has <b>___</b> than Group I.','more','less'),
       mcQ('Count and compare the two groups.<br><span class="aq-emoji">⭐⭐</span> = Group H<br><span class="aq-emoji">⭐⭐⭐⭐</span> = Group I<br>Group I has <b>___</b> than Group H.','more','less'),
       mcQ('Josh has 9 coins. Sam has 6 coins.<br>Who has more coins?','Josh','Sam'),
-      mcQ('A pencil costs 10 pesos. An eraser costs 8 pesos.<br>Which one costs less?','The eraser','The pencil')
+      mcQ('A pencil costs 10 pesos. An eraser costs 8 pesos.<br>Which one costs less?','The eraser','The pencil'),
+      mcQ('Match and compare.<br><span class="aq-emoji">🥚🥚🥚🥚🥚🥚</span> = Group E<br><span class="aq-emoji">🐥🐥🐥🐥</span> = Group F<br>Do Group E and Group F have the same number?','No','Yes'),
+      mcQ('Count and compare.<br><span class="aq-emoji">🍐</span> = Group G<br><span class="aq-emoji">🍎🍎🍎</span> = Group H<br>Which group has more?','Group H','Group G'),
+      mcQ('Count and compare.<br><span class="aq-emoji">🍐</span> = Group G<br><span class="aq-emoji">🍎🍎🍎</span> = Group H<br>Which group has less?','Group G','Group H')
     ]
   },
   {
