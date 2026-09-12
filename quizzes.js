@@ -71,7 +71,9 @@ var DECKS=[
       mcQ('A pencil costs 10 pesos. An eraser costs 8 pesos.<br>Which one costs less?','The eraser','The pencil'),
       mcQ('Match and compare.<br><span class="aq-emoji">🥚🥚🥚🥚🥚🥚</span> = Group E<br><span class="aq-emoji">🐥🐥🐥🐥</span> = Group F<br>Do Group E and Group F have the same number?','No','Yes'),
       mcQ('Count and compare.<br><span class="aq-emoji">🍐</span> = Group G<br><span class="aq-emoji">🍎🍎🍎</span> = Group H<br>Which group has more?','Group H','Group G'),
-      mcQ('Count and compare.<br><span class="aq-emoji">🍐</span> = Group G<br><span class="aq-emoji">🍎🍎🍎</span> = Group H<br>Which group has less?','Group G','Group H')
+      mcQ('Count and compare.<br><span class="aq-emoji">🍐</span> = Group G<br><span class="aq-emoji">🍎🍎🍎</span> = Group H<br>Which group has less?','Group G','Group H'),
+      mcQ('Match and compare.<br><span class="aq-emoji">🐘🐘🐘🐘</span> = Group A<br><span class="aq-emoji">🦁🦁🦁🦁🦁</span> = Group B<br>Do Group A and Group B have the same number?','No','Yes'),
+      mcQ('Match and compare.<br><span class="aq-emoji">🐠🐠🐠🐠🐠🐠🐠🐠</span> = Group C<br><span class="aq-emoji">🐡🐡🐡🐡🐡🐡🐡🐡</span> = Group D<br>Do Group C and Group D have the same number?','Yes','No')
     ]
   },
   {
