@@ -19,6 +19,7 @@ function numDistractors(answer){
 }
 function numQ(prompt,answer){return{q:prompt,a:String(answer),d:numDistractors(answer)}}
 function mcQ(prompt,answer,wrong){return{q:prompt,a:answer,d:[wrong]}}
+function mc3Q(prompt,answer,w1,w2){return{q:prompt,a:answer,d:[w1,w2]}}
 
 // ---------- deck data (worksheet content as-is) ----------
 // Quiz 1.2 sequences: [full sequence, [indexes of blanks]]
@@ -151,6 +152,151 @@ var DECKS=[
       numQ('Jake had 8 red marbles. He lost 2 red marbles.<br>How many red marbles are left?',6)
     ]
   }
+  ,
+  {
+    id:'e1', icon:'🔤', title:'The English Alphabet',
+    subtitle:'Letters A to Z',
+    questions:[
+      mc3Q('What comes right after the letter <b>C</b>?','D','B','E'),
+      mc3Q('What comes right after the letter <b>G</b>?','H','F','I'),
+      mc3Q('What comes right before the letter <b>M</b>?','L','N','K'),
+      mc3Q('What comes right before the letter <b>R</b>?','Q','S','P'),
+      mc3Q('Which letter comes FIRST in the alphabet?','A','Z','M'),
+      mc3Q('Which letter comes LAST in the alphabet?','Z','A','Y'),
+      mc3Q('Which letter is missing?<br><span class="aq-word">A B C <span class="aq-blank">?</span> E</span>','D','C','F'),
+      mc3Q('Which letter is missing?<br><span class="aq-word">F G <span class="aq-blank">?</span> I J</span>','H','G','I'),
+      mc3Q('Which letter is missing?<br><span class="aq-word"><span class="aq-blank">?</span> B C D E</span>','A','F','Z'),
+      mc3Q('Which word starts with the letter <b>B</b>?','Boat','Apple','Cat'),
+      mc3Q('Which word starts with the letter <b>S</b>?','Ship','Dog','Fish'),
+      mc3Q('Which word starts with the letter <b>T</b>?','Treasure','Boat','Wave'),
+      mc3Q('Which word starts with the letter <b>A</b>?','Anchor','Boat','Ship'),
+      numQ('How many letters are there in the English alphabet?',26)
+    ]
+  },
+  {
+    id:'e2', icon:'🔡', title:'Vowels and Consonants',
+    subtitle:'a e i o u and the rest',
+    questions:[
+      mc3Q('Which of these is a <b>vowel</b>?','E','B','T'),
+      mc3Q('Which of these is a <b>vowel</b>?','O','M','K'),
+      mc3Q('Which of these is a <b>vowel</b>?','U','R','N'),
+      mc3Q('Which of these is a <b>vowel</b>?','I','L','D'),
+      mc3Q('Which of these is a <b>consonant</b>?','B','A','I'),
+      mc3Q('Which of these is a <b>consonant</b>?','S','U','O'),
+      mc3Q('Which of these is a <b>consonant</b>?','T','E','A'),
+      mc3Q('Which of these is a <b>consonant</b>?','G','O','U'),
+      numQ('How many vowels are there in the English alphabet? (a, e, i, o, u)',5),
+      mc3Q('Which word starts with a <b>vowel</b> sound?','Ocean','Ship','Boat'),
+      mc3Q('Which word starts with a <b>vowel</b> sound?','Anchor','Treasure','Wave'),
+      mc3Q('Which word starts with a <b>consonant</b>?','Ship','Ocean','Anchor'),
+      mc3Q('Which word starts with a <b>consonant</b>?','Boat','Island','Egg'),
+      mc3Q('Which letter is NOT a vowel?','P','A','I')
+    ]
+  },
+  {
+    id:'e3', icon:'🔠', title:'Capitalization Rules',
+    subtitle:'Big letters vs small letters',
+    questions:[
+      mc3Q('Which one is a BIG (capital) letter?','A','a','b'),
+      mc3Q('Which one is a small (lowercase) letter?','b','B','D'),
+      mcQ('Which sentence is written correctly?','The ship sank.','the ship sank.'),
+      mcQ('Which sentence is written correctly?','Alec found a treasure.','alec found a treasure.'),
+      mcQ('Which sentence is written correctly?','My name is Alec.','my name is alec.'),
+      mc3Q('What is the CAPITAL form of the letter <b>m</b>?','M','N','W'),
+      mc3Q('What is the CAPITAL form of the letter <b>s</b>?','S','Z','F'),
+      mc3Q('What is the small (lowercase) form of the letter <b>T</b>?','t','f','l'),
+      mc3Q('What is the small (lowercase) form of the letter <b>K</b>?','k','h','x'),
+      mcQ('Every sentence should begin with a ___ letter.','capital','small'),
+      mcQ('A person\'s name should always start with a ___ letter.','capital','small'),
+      mc3Q('Which one is a capital letter?','Q','q','p')
+    ]
+  },
+  {
+    id:'e4', icon:'📚', title:'Alphabetical Order',
+    subtitle:'Arrange words A to Z',
+    questions:[
+      mcQ('Which word comes FIRST in alphabetical order?','Anchor','Boat'),
+      mcQ('Which word comes FIRST in alphabetical order?','Ocean','Ship'),
+      mcQ('Which word comes FIRST in alphabetical order?','Island','Treasure'),
+      mcQ('Which word comes FIRST in alphabetical order?','Boat','Wave'),
+      mcQ('Which word comes LAST in alphabetical order?','Ship','Anchor'),
+      mcQ('Which word comes LAST in alphabetical order?','Fish','Crab'),
+      mcQ('Which word comes FIRST? (look at the 2nd letter)','Ship','Sun'),
+      mcQ('Which word comes FIRST? (look at the 2nd letter)','Boat','Bump'),
+      mcQ('Which word comes FIRST? (look at the 2nd letter)','Land','Lungs'),
+      mcQ('Which word comes FIRST? (look at the letters closely)','Run','Rust'),
+      mcQ('Which word comes FIRST alphabetically?','Man','Many'),
+      mcQ('Which word comes FIRST alphabetically?','Pal','Pull'),
+      mcQ('Which word comes FIRST alphabetically?','Sad','Sip'),
+      mcQ('Which word comes FIRST alphabetically?','Full','Happy')
+    ]
+  },
+  {
+    id:'e5', icon:'🎵', title:'Count the Syllables',
+    subtitle:'Clap out the word parts',
+    questions:[
+      numQ('How many syllables does the word <b>"ship"</b> have?',1),
+      numQ('How many syllables does the word <b>"sun"</b> have?',1),
+      numQ('How many syllables does the word <b>"ago"</b> have?',2),
+      numQ('How many syllables does the word <b>"many"</b> have?',2),
+      numQ('How many syllables does the word <b>"happy"</b> have?',2),
+      numQ('How many syllables does the word <b>"notebook"</b> have?',2),
+      numQ('How many syllables does the word <b>"pencil"</b> have?',2),
+      numQ('How many syllables does the word <b>"teacher"</b> have?',2),
+      numQ('How many syllables does the word <b>"anchor"</b> have?',2),
+      numQ('How many syllables does the word <b>"ocean"</b> have?',2),
+      numQ('How many syllables does the word <b>"island"</b> have?',2),
+      numQ('How many syllables does the word <b>"treasure"</b> have?',2),
+      numQ('How many syllables does the word <b>"diary"</b> have?',3),
+      numQ('How many syllables does the word <b>"eraser"</b> have?',3)
+    ]
+  },
+  {
+    id:'e6', icon:'✏️', title:'Spelling List #1',
+    subtitle:'Short a and short u sounds',
+    questions:[
+      mc3Q('Which letter completes the word?<br><span class="aq-word">a n <span class="aq-blank">?</span></span><br>(a small crawling insect)','t','p','d'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">f <span class="aq-blank">?</span> n</span><br>(something enjoyable)','u','a','i'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">s <span class="aq-blank">?</span> n</span><br>(it shines in the sky by day)','u','a','i'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">t <span class="aq-blank">?</span> p</span><br>(to knock lightly)','a','i','o'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">l <span class="aq-blank">?</span> n d</span><br>(solid ground, opposite of sea)','a','e','i'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">m <span class="aq-blank">?</span> n</span><br>(an adult male person)','a','e','o'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">h <span class="aq-blank">?</span> n d</span><br>(the part of your body with fingers)','a','e','o'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">p <span class="aq-blank">?</span> n t s</span><br>(clothing you wear on your legs)','a','e','o'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">r <span class="aq-blank">?</span> n</span><br>(to move fast using your legs)','u','a','i'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">r <span class="aq-blank">?</span> s t</span><br>(orange flaky stuff on old metal)','u','a','e'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">b <span class="aq-blank">?</span> m p</span><br>(a small hit or lump)','u','a','e'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">b <span class="aq-blank">?</span> n c h</span><br>(a group of things together)','u','a','e'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word"><span class="aq-blank">?</span> g o</span><br>(a while back in time)','a','e','o'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">s <span class="aq-blank">?</span> c k</span><br>(to drink through a straw)','u','a','i'),
+      mc3Q('Which letter completes the word?<br><span class="aq-word">l <span class="aq-blank">?</span> n g s</span><br>(organs in your chest you breathe with)','u','a','o'),
+      mc3Q('BONUS: Which letter completes the word?<br><span class="aq-word">n o t e b o <span class="aq-blank">?</span> k</span><br>(something you write in for school)','o','a','e'),
+      mc3Q('BONUS: Which letter completes the word?<br><span class="aq-word">p <span class="aq-blank">?</span> n c i l</span><br>(a tool used for writing or drawing)','e','a','i'),
+      mc3Q('BONUS: Which letter completes the word?<br><span class="aq-word">e r <span class="aq-blank">?</span> s e r</span><br>(used to remove pencil marks)','a','e','i'),
+      mc3Q('BONUS: Which letter completes the word?<br><span class="aq-word">t e <span class="aq-blank">?</span> c h e r</span><br>(a person who teaches at school)','a','e','i'),
+      mc3Q('BONUS: Which letter completes the word?<br><span class="aq-word">d i <span class="aq-blank">?</span> r y</span><br>(a book where you write about your day)','a','e','i')
+    ]
+  },
+  {
+    id:'e7', icon:'📖', title:'Vocabulary',
+    subtitle:'Words and their meanings',
+    questions:[
+      mc3Q('What does <b>"pal"</b> mean?','a friend','a stranger','an enemy'),
+      mc3Q('What does <b>"sip"</b> mean?','drink in small mouthfuls','eat quickly','throw away'),
+      mc3Q('What does <b>"fix"</b> mean?','to repair','to break','to hide'),
+      mc3Q('What does <b>"train"</b> mean?','a series of railroad cars','a type of boat','a kind of bird'),
+      mc3Q('What does <b>"pull"</b> mean?','to hold and move toward yourself','to push away','to throw up'),
+      mc3Q('What does <b>"full"</b> mean?','containing as much as possible','completely empty','very small'),
+      mc3Q('What does <b>"many"</b> mean?','a large number of things','just one thing','nothing at all'),
+      mc3Q('What does <b>"happy"</b> mean?','feeling glad','feeling angry','feeling sleepy'),
+      mc3Q('What does <b>"sad"</b> mean?','feeling down or unhappy','feeling excited','feeling proud'),
+      mc3Q('Which word means "a friend"?','Pal','Sip','Fix'),
+      mc3Q('Which word means "to repair"?','Fix','Pull','Full'),
+      mc3Q('Which word means "feeling glad"?','Happy','Sad','Many'),
+      mc3Q('Which word means "feeling down or unhappy"?','Sad','Happy','Full'),
+      mc3Q('Which word means "to hold and move toward yourself"?','Pull','Train','Sip')
+    ]
+  }
 ];
 
 // ---------- storage ----------
@@ -246,6 +392,7 @@ function renderAcademyHome(){
     html+='</div>';
   });
   html+='</div>';
+  html+='<div style="text-align:center;margin-top:10px"><button class="btn btn-blue" onclick="openParentReport()" style="opacity:.7;font-size:14px">📊 Parent Report</button></div>';
   html+='<button class="btn btn-blue" onclick="showTitle()" style="margin-top:8px">&#11067; Back</button>';
   inner.innerHTML=html;
   if(window.twemojiParse)twemojiParse();
@@ -260,7 +407,7 @@ window.startAcademyDeck=function(deckId){
   var deck=null;
   for(var i=0;i<DECKS.length;i++){if(DECKS[i].id===deckId){deck=DECKS[i];break}}
   if(!deck)return;
-  RUN={deck:deck,index:0,firstTryCorrect:0,answeredCorrect:0};
+  RUN={deck:deck,index:0,firstTryCorrect:0,answeredCorrect:0,wrongThisQ:[],loggedThisQ:false};
   firstTryOK=true;
   renderQuestion();
   showScreen('academy-quiz');
@@ -271,6 +418,8 @@ function renderQuestion(){
   var deck=RUN.deck;
   var q=deck.questions[RUN.index];
   var total=deck.questions.length;
+  RUN.wrongThisQ=[];
+  RUN.loggedThisQ=false;
 
   var choices=shuffle([q.a].concat(q.d.slice()));
   var wide=choices.length===2?' wide':'';
@@ -320,6 +469,7 @@ function answerPick(btn,q){
     var fb=document.getElementById('aq-feedback');
     if(fb){fb.textContent=['Correct!','Great job!','Well done!','Awesome!'][Math.floor(Math.random()*4)]}
     disableChoices();
+    maybeLogQuestion(q);
     setTimeout(function(){
       firstTryOK=true;
       RUN.index++;
@@ -329,6 +479,7 @@ function answerPick(btn,q){
   }else{
     btn.classList.add('bad');
     btn.disabled=true;
+    if(RUN&&RUN.wrongThisQ){RUN.wrongThisQ.push(val)}
     firstTryOK=false;
     Audio.wrong();
     var fb=document.getElementById('aq-feedback');
@@ -390,9 +541,243 @@ function finishDeck(){
 
 window.academyQuitQuiz=function(){
   Audio.click();
+  if(RUN&&RUN.deck&&RUN.wrongThisQ&&RUN.wrongThisQ.length&&!RUN.loggedThisQ){
+    maybeLogQuestion(RUN.deck.questions[RUN.index],true);
+  }
   RUN=null;
   renderAcademyHome();
   showScreen('academy-home');
 };
+
+
+// ============================================================
+// PARENT REPORT + MISS LOG
+// Tracks every question Alec answers wrong or needs retries on.
+// - Local log: always available offline on this device
+// - Silent sync: sends events to the parent log endpoint when online
+// - Parent Report: passcode-protected screen with CSV export
+// ============================================================
+var PARENT_PASSCODE='4466';
+var LOG_ENDPOINT='https://solene-128e0632.base44.app/functions/warshipLog';
+var LOG_TOKEN='WARSHIP-LOG-2026';
+var LOG_KEY='se_academy_log_v1';
+var OUTBOX_KEY='se_academy_outbox_v1';
+var IDS_KEY='se_academy_ids_v1'; // survives progress resets (key -> server record id)
+
+function loadJSON(k,fallback){try{var v=JSON.parse(localStorage.getItem(k)||'');return v||fallback}catch(e){return fallback}}
+function saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function stripTags(s){return String(s).replace(/<br\s*\/?>/gi,' ').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim()}
+function qKey(deckId,q){return deckId+'|'+stripTags(q).slice(0,90)}
+
+function maybeLogQuestion(q,quitting){
+  if(!RUN||!RUN.deck||RUN.loggedThisQ)return;
+  RUN.loggedThisQ=true;
+  var wrongs=RUN.wrongThisQ||[];
+  if(!wrongs.length)return; // first-try correct: nothing to log
+  var ev={
+    key:qKey(RUN.deck.id,q.q),
+    deck:RUN.deck.id,
+    deckTitle:RUN.deck.title,
+    deckIcon:RUN.deck.icon,
+    question:stripTags(q.q),
+    answer:q.a,
+    wrongPicks:wrongs.slice(),
+    tries:wrongs.length+1,
+    answered:!quitting,
+    ts:new Date().toISOString()
+  };
+  var log=loadJSON(LOG_KEY,[]);
+  log.push(ev);
+  if(log.length>600){log=log.slice(-600)}
+  saveJSON(LOG_KEY,log);
+  var out=loadJSON(OUTBOX_KEY,[]);
+  out.push({key:ev.key,deck:ev.deck,question:ev.question,answer:ev.answer,wrongPicks:ev.wrongPicks,tries:ev.tries,ts:ev.ts});
+  if(out.length>300){out=out.slice(-300)}
+  saveJSON(OUTBOX_KEY,out);
+  flushOutbox();
+}
+
+function flushOutbox(){
+  try{
+    if(!navigator.onLine)return;
+    var out=loadJSON(OUTBOX_KEY,[]);
+    if(!out.length)return;
+    var ids=loadJSON(IDS_KEY,{});
+    var batch=out.slice(0,20);
+    batch.forEach(function(ev){if(ids[ev.key])ev.id=ids[ev.key]});
+    fetch(LOG_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:LOG_TOKEN,events:batch})
+    }).then(function(r){return r.json()}).then(function(res){
+      if(res&&res.ok){
+        if(res.ids){for(var k in res.ids){ids[k]=res.ids[k]};saveJSON(IDS_KEY,ids)}
+        saveJSON(OUTBOX_KEY,out.slice(batch.length));
+      }
+    }).catch(function(){/* offline or endpoint down: keep in outbox */});
+  }catch(e){}
+}
+if(window.addEventListener){window.addEventListener('online',function(){setTimeout(flushOutbox,2000)})}
+
+// ---------- Parent Report UI ----------
+window.openParentReport=function(){
+  Audio.click();
+  var modal=document.getElementById('pr-pass-modal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='pr-pass-modal';
+    modal.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,20,40,.85);display:flex;align-items:center;justify-content:center';
+    modal.innerHTML='<div style="background:#0d2b45;border:2px solid #4ecdc4;border-radius:16px;padding:24px;width:85%;max-width:320px;text-align:center">'
+      +'<div style="font-size:28px;margin-bottom:6px">🔒</div>'
+      +'<div style="color:#fff;font-weight:bold;margin-bottom:12px">Parent Access</div>'
+      +'<input id="pr-pass-input" type="password" inputmode="numeric" maxlength="8" placeholder="Passcode" style="width:100%;padding:12px;border-radius:10px;border:2px solid #4ecdc4;background:rgba(255,255,255,.1);color:#fff;font-size:20px;text-align:center;letter-spacing:4px;margin-bottom:8px"/>'
+      +'<div id="pr-pass-error" style="color:#ff6b6b;font-size:13px;min-height:18px;margin-bottom:8px"></div>'
+      +'<button class="btn" onclick="prCheckPass()" style="width:100%">Enter</button>'
+      +'<button class="btn btn-blue" onclick="prClosePass()" style="width:100%;margin-top:8px;margin-left:0">Cancel</button>'
+      +'</div>';
+    document.body.appendChild(modal);
+    modal.addEventListener('keydown',function(e){if(e.key==='Enter'){prCheckPass()}});
+  }
+  modal.style.display='flex';
+  document.getElementById('pr-pass-error').textContent='';
+  var inp=document.getElementById('pr-pass-input');
+  inp.value='';
+  setTimeout(function(){inp.focus()},100);
+};
+window.prCheckPass=function(){
+  var inp=document.getElementById('pr-pass-input');
+  if(inp.value===PARENT_PASSCODE){
+    Audio.correct();
+    window.prClosePass();
+    window.renderParentReport();
+  }else{
+    Audio.wrong();
+    document.getElementById('pr-pass-error').textContent='Wrong passcode.';
+    inp.value='';
+    inp.focus();
+  }
+};
+window.prClosePass=function(){
+  var m=document.getElementById('pr-pass-modal');
+  if(m)m.style.display='none';
+};
+
+function prAgg(){
+  var log=loadJSON(LOG_KEY,[]);
+  var map={};
+  log.forEach(function(ev){
+    var a=map[ev.key];
+    if(!a){a=map[ev.key]={key:ev.key,deck:ev.deck,deckTitle:ev.deckTitle||'',deckIcon:ev.deckIcon||'',question:ev.question,answer:ev.answer,wrongPicks:{},wrongCount:0,times:0,lastTs:''}}
+    ev.wrongPicks.forEach(function(w){a.wrongPicks[w]=(a.wrongPicks[w]||0)+1});
+    a.wrongCount+=ev.wrongPicks.length;
+    a.times++;
+    if(ev.ts>a.lastTs)a.lastTs=ev.ts;
+  });
+  var arr=[];
+  for(var k in map){arr.push(map[k])}
+  arr.sort(function(x,y){return y.wrongCount-x.wrongCount|| (x.lastTs<y.lastTs?1:-1)});
+  return {list:arr,raw:log};
+}
+
+function prFmtDate(iso){
+  try{
+    var d=new Date(iso);
+    return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  }catch(e){return iso}
+}
+
+window.renderParentReport=function(){
+  ensureScreens();
+  var agg=prAgg();
+  var list=agg.list;
+  var html='<div class="academy-title" style="font-size:clamp(20px,6vw,30px)">📊 Parent Report</div>';
+  html+='<div class="academy-sub" style="margin-bottom:10px">Questions Alec answered wrong or needed retries on.</div>';
+  if(!list.length){
+    html+='<div class="aq-card" style="margin:20px 0;text-align:center">No wrong answers logged yet. Great sailing! 🎉</div>';
+  }else{
+    var outN=loadJSON(OUTBOX_KEY,[]).length;
+    html+='<div style="text-align:center;color:#a8dadc;font-size:12px;margin-bottom:10px">'+list.length+' question(s) &#8226; '+agg.raw.length+' logged event(s)'+(outN?' &#8226; '+outN+' waiting to sync':'')+'</div>';
+    list.forEach(function(a){
+      var picks=[];
+      for(var w in a.wrongPicks){picks.push('"'+w+'" x'+a.wrongPicks[w])}
+      html+='<div class="aq-card" style="margin-bottom:8px;padding:10px 14px;text-align:left">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+        +'<span style="font-size:14px;color:#ffd166">'+a.deckIcon+' '+a.deckTitle+'</span>'
+        +'<span style="color:#ff6b6b;font-weight:bold">❌ '+a.wrongCount+'</span></div>'
+        +'<div style="color:#fff;font-size:14px;line-height:1.35;margin-bottom:4px">'+a.question.slice(0,140)+'</div>'
+        +'<div style="color:#a8dadc;font-size:12px">Correct: <b style="color:#4ecdc4">'+a.answer+'</b> &#8226; picked wrong: '+(picks.join(', ')||'-')+' &#8226; seen '+a.times+'x &#8226; last: '+prFmtDate(a.lastTs)+'</div>'
+        +'</div>';
+    });
+  }
+  html+='<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">';
+  if(list.length){
+    html+='<button class="btn" onclick="prExportCSV()">&#11015;&#65039; Export CSV</button>';
+    html+='<button class="btn btn-blue" onclick="prCopyReport()">&#128203; Copy</button>';
+    html+='<button class="btn btn-blue" onclick="prClearLog()">&#128465;&#65039; Clear Log</button>';
+  }
+  html+='<button class="btn btn-blue" onclick="showAcademy()">&#11067; Back</button>';
+  html+='</div>';
+  var rep=document.getElementById('academy-report');
+  if(!rep){
+    rep=document.createElement('div');
+    rep.className='screen deepwater';
+    rep.id='academy-report';
+    rep.innerHTML='<div class="academy-wrap" id="academy-report-inner" style="overflow-y:auto;max-height:100vh;padding-bottom:40px"></div>';
+    document.body.appendChild(rep);
+  }
+  document.getElementById('academy-report-inner').innerHTML=html;
+  showScreen('academy-report');
+};
+
+window.prExportCSV=function(){
+  var log=loadJSON(LOG_KEY,[]);
+  if(!log.length)return;
+  function esc(s){return '"'+String(s).replace(/"/g,'""')+'"'}
+  var lines=['Date,Deck,Question,Correct Answer,Wrong Picks,Tries,Answered'];
+  log.forEach(function(ev){
+    lines.push([prFmtDate(ev.ts),esc(ev.deckTitle||ev.deck),esc(ev.question),esc(ev.answer),esc(ev.wrongPicks.join(' | ')),ev.tries,ev.answered?'yes':'quit'].join(','));
+  });
+  var csv=lines.join('\n');
+  try{
+    var blob=new Blob([csv],{type:'text/csv'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    var d=new Date();
+    var pad=function(n){return (n<10?'0':'')+n};
+    a.download='warship-academy-log-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.csv';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);
+  }catch(e){
+    prompt('Copy your CSV:',csv);
+  }
+  Audio.correct();
+};
+
+window.prCopyReport=function(){
+  var agg=prAgg();
+  var txt='WARSHIP ACADEMY - PARENT REPORT\nGenerated: '+prFmtDate(new Date().toISOString())+'\n\n';
+  agg.list.forEach(function(a,i){
+    var pk=[];for(var w in a.wrongPicks){pk.push(w+' x'+a.wrongPicks[w])}
+    txt+=(i+1)+'. ['+a.deckIcon+' '+a.deckTitle+'] '+a.question+'\n   Correct: '+a.answer+' | wrong picks: '+(pk.join(', ')||'-')+' | wrong x'+a.wrongCount+' | last seen: '+prFmtDate(a.lastTs)+'\n';
+  });
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){Audio.correct()}).catch(function(){prompt('Copy report:',txt)});
+  }else{
+    prompt('Copy report:',txt);
+  }
+};
+
+window.prClearLog=function(){
+  if(confirm('Clear the miss log? This deletes the local history on this device.')){
+    localStorage.removeItem(LOG_KEY);
+    localStorage.removeItem(OUTBOX_KEY);
+    window.renderParentReport();
+  }
+};
+
+// flush any pending events when the academy opens
+var _origShowAcademy=window.showAcademy;
+window.showAcademy=function(){_origShowAcademy();setTimeout(flushOutbox,500)};
 
 })();
