@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shipwreck-explorer-v14';
+const CACHE_NAME = 'shipwreck-explorer-v15';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
