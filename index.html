@@ -209,6 +209,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2','Fredoka'
 .ship-photo{width:100%;height:120px;object-fit:cover;border-radius:12px;margin-bottom:8px;background:#003459}
 .ship-photo-card{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:8px;background:#003459}
 .gallery-photo{width:100%;height:90px;object-fit:cover;border-radius:10px;margin-bottom:6px;background:#003459}
+@keyframes arcadeShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 .patrol-banner{position:absolute;top:18%;left:50%;transform:translate(-50%,-16px);background:rgba(0,26,51,0.92);border:3px solid #ffd700;border-radius:14px;padding:10px 22px;color:#ffd700;font-size:clamp(15px,4vw,20px);font-weight:bold;z-index:8;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap}
 .patrol-banner.show{opacity:1;transform:translate(-50%,0)}
 .reward-photo{width:100%;max-height:200px;object-fit:cover;border-radius:12px;margin-bottom:10px;background:#003459}
@@ -2112,21 +2113,19 @@ Audio.click();
 document.getElementById('hud').classList.add('hidden');
 const grid=document.getElementById('arcade-grid');
 grid.innerHTML='';
-// Sub Patrol: flagship reward game, unlocks when all 5 math decks are done
+// Sub Patrol: flagship reward game — FREE for everyone
+// Golden sub skin in-game still unlocks when all 7 English decks are completed
 (function(){
-const unlocked=!!(window.academyMathComplete&&window.academyMathComplete());
 const card=document.createElement('div');
 card.className='subject-card';
 card.style.borderLeft='4px solid #FFD700';
-card.style.opacity=unlocked?'1':'0.55';
-card.style.cursor=unlocked?'pointer':'not-allowed';
 card.innerHTML=`
 <div style="font-size:36px;margin-bottom:4px">🚢</div>
 <div style="font-size:clamp(16px,4vw,20px);color:#fff;font-weight:bold">Sub Patrol</div>
-<div style="font-size:clamp(11px,2.5vw,13px);color:#4ecdc4;margin:4px 0">${unlocked?'Steer the sub, blast mines, grab treasure!':'🔒 Finish ALL 5 Math decks to unlock!'}</div>
-<div style="font-size:clamp(14px,3.5vw,18px);color:${unlocked?'#ffd700':'#8899aa'};font-weight:bold">${unlocked?'FREE to play!':'Locked'}</div>
+<div style="font-size:clamp(11px,2.5vw,13px);color:#4ecdc4;margin:4px 0">Steer the sub, blast mines, grab treasure!</div>
+<div style="font-size:clamp(14px,3.5vw,18px);color:#ffd700;font-weight:bold">FREE to play!</div>
 `;
-card.onclick=()=>{if(unlocked){Audio.click();startSubPatrol()}else{Audio.wrong()}};
+card.onclick=()=>{Audio.click();startSubPatrol()};
 grid.appendChild(card);
 })();
 ARCADE_GAMES.forEach(g=>{
@@ -2145,10 +2144,21 @@ card.innerHTML=`
 if(canAfford){
 card.onclick=()=>{Audio.click();startArcadeGame(g)};
 }else{
-card.onclick=()=>{Audio.wrong()};
+card.onclick=()=>{
+Audio.wrong();
+card.style.animation='none';
+void card.offsetWidth;
+card.style.animation='arcadeShake .4s';
+const msg=document.getElementById('arcade-lock-msg');
+if(msg){msg.textContent='Need '+g.cost+' coins — earn them in Warship Academy! ⚓';setTimeout(function(){msg.textContent=''},2200)}
+};
 }
 grid.appendChild(card);
 });
+const lockMsg=document.createElement('div');
+lockMsg.id='arcade-lock-msg';
+lockMsg.style.cssText='text-align:center;color:#ffd700;font-size:clamp(13px,3vw,15px);font-weight:bold;min-height:22px;margin-top:8px;padding:0 12px';
+grid.appendChild(lockMsg);
 showScreen('arcade-screen');
 }
 
