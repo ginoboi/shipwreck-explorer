@@ -21,6 +21,48 @@ function numQ(prompt,answer){return{q:prompt,a:String(answer),d:numDistractors(a
 function mcQ(prompt,answer,wrong){return{q:prompt,a:answer,d:[wrong]}}
 function mc3Q(prompt,answer,w1,w2){return{q:prompt,a:answer,d:[w1,w2]}}
 
+// ---------- Spanish audio (ElevenLabs, native pronunciation) ----------
+var SPANISH_AUDIO={
+hola:'audio/es_hola.mp3',adios:'audio/es_adios.mp3',si:'audio/es_si.mp3',no:'audio/es_no.mp3',
+gracias:'audio/es_gracias.mp3',buenos_dias:'audio/es_buenos_dias.mp3',buenas_noches:'audio/es_buenas_noches.mp3',
+por_favor:'audio/es_por_favor.mp3',de_nada:'audio/es_de_nada.mp3',como_estas:'audio/es_como_estas.mp3',muy_bien:'audio/es_muy_bien.mp3',
+rojo:'audio/es_rojo.mp3',azul:'audio/es_azul.mp3',verde:'audio/es_verde.mp3',amarillo:'audio/es_amarillo.mp3',
+blanco:'audio/es_blanco.mp3',negro:'audio/es_negro.mp3',naranja:'audio/es_naranja.mp3',rosa:'audio/es_rosa.mp3',
+uno:'audio/es_uno.mp3',dos:'audio/es_dos.mp3',tres:'audio/es_tres.mp3',cuatro:'audio/es_cuatro.mp3',cinco:'audio/es_cinco.mp3',
+seis:'audio/es_seis.mp3',siete:'audio/es_siete.mp3',ocho:'audio/es_ocho.mp3',nueve:'audio/es_nueve.mp3',diez:'audio/es_diez.mp3',
+gato:'audio/es_gato.mp3',perro:'audio/es_perro.mp3',pez:'audio/es_pez.mp3',pajaro:'audio/es_pajaro.mp3',
+vaca:'audio/es_vaca.mp3',caballo:'audio/es_caballo.mp3',oso:'audio/es_oso.mp3',rana:'audio/es_rana.mp3',
+mama:'audio/es_mama.mp3',papa:'audio/es_papa.mp3',hermano:'audio/es_hermano.mp3',hermana:'audio/es_hermana.mp3',
+abuela:'audio/es_abuela.mp3',abuelo:'audio/es_abuelo.mp3',
+pan:'audio/es_pan.mp3',leche:'audio/es_leche.mp3',agua:'audio/es_agua.mp3',manzana:'audio/es_manzana.mp3',
+huevo:'audio/es_huevo.mp3',queso:'audio/es_queso.mp3',pescado:'audio/es_pescado.mp3',helado:'audio/es_helado.mp3'
+};
+var _esAudioEl=null;
+function playSpanish(key){
+var f=SPANISH_AUDIO[key];
+if(!f)return;
+if(!_esAudioEl){_esAudioEl=document.createElement('audio');_esAudioEl.preload='metadata';_esAudioEl.style.display='none';document.body.appendChild(_esAudioEl)}
+try{
+_esAudioEl.pause();
+_esAudioEl.src=f;
+var p=_esAudioEl.play();
+if(p&&p.catch){p.catch(function(){})}
+}catch(e){}
+}
+function stopSpanish(){if(_esAudioEl){try{_esAudioEl.pause()}catch(e){}}}
+window.playSpanish=playSpanish;
+
+// Spanish question builders: prompt, audio key, answer, wrong choices...
+function esQ(prompt,audio,answer){
+var wrongs=Array.prototype.slice.call(arguments,3);
+return{q:prompt,a:answer,d:wrongs,audio:audio}
+}
+// with tap-to-hear choice speakers: prompt, audio key, answer, caudio map, wrong choices...
+function esQc(prompt,audio,answer,caudio){
+var wrongs=Array.prototype.slice.call(arguments,4);
+return{q:prompt,a:answer,d:wrongs,audio:audio,caudio:caudio}
+}
+
 // ---------- deck data (worksheet content as-is) ----------
 // Quiz 1.2 sequences: [full sequence, [indexes of blanks]]
 var SEQ=[
@@ -311,6 +353,100 @@ var DECKS=[
       mc3Q('Which word means "feeling down or unhappy"?','Sad','Happy','Full'),
       mc3Q('Which word means "to hold and move toward yourself"?','Pull','Train','Sip')
     ]
+  },
+  {
+    id:'s1', icon:'👋', title:'¡Hola! Greetings',
+    subtitle:'Say hello in Spanish',
+    questions:[
+      esQ('🔊 Listen!<br>What does <b>hola</b> mean?','hola','👋 Hello','👋 Goodbye','🙏 Thank you'),
+      esQ('🔊 Listen!<br>What does <b>adiós</b> mean?','adios','👋 Goodbye','👋 Hello','✅ Yes'),
+      esQ('🔊 Listen!<br>What does <b>sí</b> mean?','si','✅ Yes','❌ No','👋 Goodbye'),
+      esQ('🔊 Listen!<br>What does <b>no</b> mean?','no','❌ No','✅ Yes','👋 Hello'),
+      esQ('🔊 Listen!<br>What does <b>gracias</b> mean?','gracias','🙏 Thank you','👋 Hello','✅ Yes'),
+      esQ('🔊 Listen!<br>What does <b>buenos días</b> mean?','buenos_dias','🌅 Good morning','🌙 Good night','👋 Goodbye'),
+      esQ('🔊 Listen!<br>What does <b>buenas noches</b> mean?','buenas_noches','🌙 Good night','🌅 Good morning','👋 Hello'),
+      esQ('🔊 Listen!<br>What does <b>por favor</b> mean?','por_favor','🙏 Please','🙏 Thank you','✅ Yes'),
+      esQ('🔊 Listen!<br>What does <b>de nada</b> mean?','de_nada','😊 You are welcome','🙏 Thank you','👋 Hello'),
+      esQc('Someone gives you a gift. You say <b>gracias</b>!<br>What do they answer?','gracias','De nada',{'De nada':'de_nada','Sí':'si','Adiós':'adios'},'Sí','Adiós'),
+      esQc('Your friend waves and says <b>hola</b>!<br>What do you answer?','hola','¡Hola!',{'¡Hola!':'hola','Gracias':'gracias','No':'no'},'Gracias','No')
+    ]
+  },
+  {
+    id:'s2', icon:'🎨', title:'Colores (Colors)',
+    subtitle:'Tap the right color',
+    questions:[
+      esQ('🔊 Listen: <b>rojo</b>!<br>Tap the right color!','rojo','🔴','🟢','🔵','🟡'),
+      esQ('🔊 Listen: <b>azul</b>!<br>Tap the right color!','azul','🔵','🔴','🟢','🟡'),
+      esQ('🔊 Listen: <b>verde</b>!<br>Tap the right color!','verde','🟢','🔴','🔵','🟡'),
+      esQ('🔊 Listen: <b>amarillo</b>!<br>Tap the right color!','amarillo','🟡','🔴','🟢','🔵'),
+      esQ('🔊 Listen: <b>blanco</b>!<br>Tap the right color!','blanco','⚪','⚫','🔴','🔵'),
+      esQ('🔊 Listen: <b>negro</b>!<br>Tap the right color!','negro','⚫','⚪','🟡','🔵'),
+      esQ('🔊 Listen: <b>naranja</b>!<br>Tap the right color!','naranja','🟠','🔴','🟡','🟢'),
+      esQ('🔊 Listen: <b>rosa</b>!<br>Tap the right color!','rosa','🩷','❤️','🟡','🔵'),
+      esQc('This color is <b>blue</b>!<br>Tap the Spanish word for blue.','azul','azul',{'azul':'azul','rojo':'rojo','verde':'verde'},'rojo','verde')
+    ]
+  },
+  {
+    id:'s3', icon:'🔢', title:'Números (Numbers)',
+    subtitle:'One to ten',
+    questions:[
+      esQ('🔊 Listen!<br>Which number do you hear?','uno','1','2','3','7'),
+      esQ('🔊 Listen!<br>Which number do you hear?','dos','2','1','3','5'),
+      esQ('🔊 Listen!<br>Which number do you hear?','tres','3','2','4','6'),
+      esQ('🔊 Listen!<br>Which number do you hear?','cuatro','4','3','5','7'),
+      esQ('🔊 Listen!<br>Which number do you hear?','cinco','5','4','6','2'),
+      esQ('🔊 Listen!<br>Which number do you hear?','seis','6','5','7','3'),
+      esQ('🔊 Listen!<br>Which number do you hear?','siete','7','6','8','4'),
+      esQ('🔊 Listen!<br>Which number do you hear?','ocho','8','7','9','5'),
+      esQ('🔊 Listen!<br>Which number do you hear?','nueve','9','8','10','6'),
+      esQ('🔊 Listen!<br>Which number do you hear?','diez','10','9','8','7')
+    ]
+  },
+  {
+    id:'s4', icon:'🐾', title:'Animales (Animals)',
+    subtitle:'Animal friends',
+    questions:[
+      esQ('🔊 Listen: <b>gato</b>!<br>Tap the right animal!','gato','🐱','🐶','🐠','🐦'),
+      esQ('🔊 Listen: <b>perro</b>!<br>Tap the right animal!','perro','🐶','🐱','🐟','🐸'),
+      esQ('🔊 Listen: <b>pez</b>!<br>Tap the right animal!','pez','🐠','🐦','🐮','🐴'),
+      esQ('🔊 Listen: <b>pájaro</b>!<br>Tap the right animal!','pajaro','🐦','🐱','🐠','🐮'),
+      esQ('🔊 Listen: <b>vaca</b>!<br>Tap the right animal!','vaca','🐮','🐴','🐻','🐸'),
+      esQ('🔊 Listen: <b>caballo</b>!<br>Tap the right animal!','caballo','🐴','🐮','🐻','🐱'),
+      esQ('🔊 Listen: <b>oso</b>!<br>Tap the right animal!','oso','🐻','🐸','🐱','🐶'),
+      esQ('🔊 Listen: <b>rana</b>!<br>Tap the right animal!','rana','🐸','🐟','🐦','🐻'),
+      esQc('This is a <b>cat</b>!<br>Tap the word for cat.','gato','gato',{'gato':'gato','perro':'perro','pez':'pez'},'perro','pez'),
+      esQc('This is a <b>dog</b>!<br>Tap the word for dog.','perro','perro',{'perro':'perro','gato':'gato','vaca':'vaca'},'gato','vaca'),
+      esQc('This is a <b>cow</b>!<br>Tap the word for cow.','vaca','vaca',{'vaca':'vaca','caballo':'caballo','oso':'oso'},'caballo','oso')
+    ]
+  },
+  {
+    id:'s5', icon:'👨‍👩‍👧', title:'Mi Familia (My Family)',
+    subtitle:'Family words',
+    questions:[
+      esQ('🔊 Listen: <b>mamá</b>!<br>Tap the right one!','mama','👩','👨','👵','👧'),
+      esQ('🔊 Listen: <b>papá</b>!<br>Tap the right one!','papa','👨','👩','👴','👦'),
+      esQ('🔊 Listen: <b>hermano</b>!<br>Tap the right one!','hermano','👦','👧','👨','👩'),
+      esQ('🔊 Listen: <b>hermana</b>!<br>Tap the right one!','hermana','👧','👦','👵','👩'),
+      esQ('🔊 Listen: <b>abuela</b>!<br>Tap the right one!','abuela','👵','👴','👩','👨'),
+      esQ('🔊 Listen: <b>abuelo</b>!<br>Tap the right one!','abuelo','👴','👵','👨','👦'),
+      esQc('This is your <b>grandma</b>!<br>Tap the word for grandma.','abuela','abuela',{'abuela':'abuela','mamá':'mama','hermana':'hermana'},'mamá','hermana')
+    ]
+  },
+  {
+    id:'s6', icon:'🍎', title:'La Comida (Food)',
+    subtitle:'Yummy words',
+    questions:[
+      esQ('🔊 Listen: <b>pan</b>!<br>Tap the right food!','pan','🍞','🥛','🍎','🧀'),
+      esQ('🔊 Listen: <b>leche</b>!<br>Tap the right food!','leche','🥛','💧','🍞','🍦'),
+      esQ('🔊 Listen: <b>agua</b>!<br>Tap the right food!','agua','💧','🥛','🍎','🥚'),
+      esQ('🔊 Listen: <b>manzana</b>!<br>Tap the right food!','manzana','🍎','🍞','🥛','🥚'),
+      esQ('🔊 Listen: <b>huevo</b>!<br>Tap the right food!','huevo','🥚','🍎','🧀','🍞'),
+      esQ('🔊 Listen: <b>queso</b>!<br>Tap the right food!','queso','🧀','🥚','🍞','🥛'),
+      esQ('🔊 Listen: <b>pescado</b>!<br>Tap the right food!','pescado','🐟','🍞','🥛','🍎'),
+      esQ('🔊 Listen: <b>helado</b>!<br>Tap the right food!','helado','🍦','🥛','🧀','🥚'),
+      esQc('This is <b>water</b>!<br>Tap the word for water.','agua','agua',{'agua':'agua','leche':'leche','pan':'pan'},'leche','pan'),
+      esQc('This is an <b>apple</b>!<br>Tap the word for apple.','manzana','manzana',{'manzana':'manzana','queso':'queso','huevo':'huevo'},'queso','huevo')
+    ]
   }
 ];
 
@@ -365,6 +501,12 @@ var CSS='<style>'+
 '.aq-result-coins{color:#ffd700;font-size:clamp(16px,5vw,22px);font-weight:bold;text-align:center}'+
 '.aq-result-msg{color:#4ecdc4;font-size:clamp(14px,4vw,17px);text-align:center}'+
 '.aq-confetti{position:absolute;top:-30px;font-size:24px;pointer-events:none;animation:aqFall 1s linear forwards}'+
+'.academy-group{color:#4ecdc4;font-weight:bold;font-size:clamp(14px,4vw,17px);margin-top:8px;padding-left:4px;text-align:left}'+
+'.aq-listen{display:flex;justify-content:center;margin-top:10px}'+
+'.aq-replay{background:linear-gradient(135deg,#FF6B35,#F7931E);border:none;border-radius:14px;color:#fff;font-size:clamp(16px,4.5vw,20px);font-weight:bold;padding:10px 22px;cursor:pointer}'+
+'.aq-replay:active{transform:scale(0.95)}'+
+'.aq-choice-spk{float:right;font-size:0.8em;opacity:0.9}'+
+'.aq-es-hint{color:#ffd700;font-size:clamp(12px,3vw,14px);text-align:center;font-weight:bold}'+
 '@keyframes aqPop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}'+
 '@keyframes aqShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}'+
 '@keyframes aqFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(360deg);opacity:0}}'+
@@ -401,7 +543,11 @@ function renderAcademyHome(){
   var html='<div class="academy-title">⚓ Warship Academy</div>';
   html+='<div class="academy-sub">Captain Alec&#39;s training decks. Finish a deck to earn coins!</div>';
   html+='<div class="academy-cards">';
+  var lastGroup='';
+  var GROUPS={q:'➕ Math',e:'🔤 English',s:'🇪🇸 Español'};
   DECKS.forEach(function(deck){
+    var g=(deck.id||'').charAt(0);
+    if(GROUPS[g]&&g!==lastGroup){html+='<div class="academy-group">'+GROUPS[g]+'</div>';lastGroup=g}
     var p=getDeckProgress(deck.id);
     var done=p.done;
     var lock=deckLockState(deck);
@@ -424,12 +570,14 @@ function renderAcademyHome(){
 var RUN=null;
 var firstTryOK=true;
 
-// progressive unlock: English review decks unlock in order, each needs the previous one completed
+// progressive unlock: English and Spanish decks unlock in order, each needs the previous one completed
 var ENGLISH_ORDER=['e1','e2','e3','e4','e5','e6','e7'];
+var SPANISH_ORDER=['s1','s2','s3','s4','s5','s6'];
 function deckLockState(deck){
-  var idx=ENGLISH_ORDER.indexOf(deck.id);
+  var order=(deck.id&&deck.id.charAt(0)==='s')?SPANISH_ORDER:ENGLISH_ORDER;
+  var idx=order.indexOf(deck.id);
   if(idx<=0)return{locked:false,needTitle:''};
-  var prev=ENGLISH_ORDER[idx-1];
+  var prev=order[idx-1];
   var prevDeck=null;
   for(var i=0;i<DECKS.length;i++){if(DECKS[i].id===prev){prevDeck=DECKS[i];break}}
   return{locked:!getDeckProgress(prev).done,needTitle:prevDeck?prevDeck.title:''};
@@ -479,10 +627,14 @@ function renderQuestion(){
   html+='</div>';
 
   html+='<div class="aq-card"><div class="aq-prompt">'+q.q+'</div></div>';
+  if(q.audio){
+    html+='<div class="aq-listen"><button class="aq-replay" id="aq-replay-btn">🔊 Play it again</button></div>';
+  }
   html+='<div class="aq-choices'+wide+'">';
   choices.forEach(function(c){
     var safe=c.replace(/"/g,'&quot;');
-    html+='<button class="aq-choice" data-v="'+safe+'">'+c+'</button>';
+    var spk=(q.caudio&&q.caudio[c])?('<span class="aq-choice-spk" data-w="'+q.caudio[c]+'">🔊</span>'):'';
+    html+='<button class="aq-choice" data-v="'+safe+'">'+c+spk+'</button>';
   });
   html+='</div>';
   html+='<div class="aq-feedback" id="aq-feedback"></div>';
@@ -491,8 +643,19 @@ function renderQuestion(){
 
   var buttons=inner.querySelectorAll('.aq-choice');
   buttons.forEach(function(btn){
-    btn.addEventListener('click',function(){answerPick(btn,q)});
+    btn.addEventListener('click',function(ev){
+      var t=ev.target;
+      if(t&&t.classList&&t.classList.contains('aq-choice-spk')){
+        ev.stopPropagation();
+        playSpanish(t.getAttribute('data-w'));
+        return;
+      }
+      answerPick(btn,q);
+    });
   });
+  var replayBtn=document.getElementById('aq-replay-btn');
+  if(replayBtn){replayBtn.addEventListener('click',function(){playSpanish(q.audio)})}
+  if(q.audio){setTimeout(function(){playSpanish(q.audio)},350)}
 }
 
 function answerPick(btn,q){
@@ -510,12 +673,14 @@ function answerPick(btn,q){
     if(fb){fb.textContent=['Correct!','Great job!','Well done!','Awesome!'][Math.floor(Math.random()*4)]}
     disableChoices();
     maybeLogQuestion(q);
+    if(q.audio){playSpanish(q.audio)}
+    var advanceDelay=q.audio?1600:1100;
     setTimeout(function(){
       firstTryOK=true;
       RUN.index++;
       if(RUN.index>=RUN.deck.questions.length){finishDeck()}
       else{renderQuestion()}
-    },1100);
+    },advanceDelay);
   }else{
     btn.classList.add('bad');
     btn.disabled=true;
@@ -547,6 +712,7 @@ function confettiBurst(){
 }
 
 function finishDeck(){
+  stopSpanish();
   var deck=RUN.deck;
   var total=deck.questions.length;
   var score=RUN.firstTryCorrect;
@@ -580,6 +746,7 @@ function finishDeck(){
 }
 
 window.academyQuitQuiz=function(){
+  stopSpanish();
   Audio.click();
   if(RUN&&RUN.deck&&RUN.wrongThisQ&&RUN.wrongThisQ.length&&!RUN.loggedThisQ){
     maybeLogQuestion(RUN.deck.questions[RUN.index],true);
